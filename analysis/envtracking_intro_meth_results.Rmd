@@ -1,0 +1,1085 @@
+---
+title: "Tracking a changing environment"
+always_allow_html: yes
+output:
+  bookdown::word_document2:
+    number_sections: no
+    toc: no
+  bookdown::html_document2:
+     number_sections: no
+     toc: no
+bibliography: srl.bib
+ #csl: animal-cognition.csl
+---
+<style>
+body {
+text-align: justify}
+</style>
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, fig.align = "center")
+```
+
+```{r Reading in the packages, echo = FALSE, include=FALSE, results= 'hide'}
+# clearing the environment
+rm(list = ls())
+
+# creating a vector of the required packages 
+# packages <- c("rmarkdown", "reshape2", "citr", "shiny", "flextable", "scales", "tidyverse", "lubridate", "ggpubr", "gridExtra",  "Hmisc", "brms", "bayesplot")
+#sapply(packages, library, character.only = TRUE)
+
+# installing the required packages if needed and loading them 
+if (!require(rmarkdown)) 
+install.packages(rmarkdown)
+if (!require(reshape2)) 
+install.packages(reshape2)
+if(!require(rticles))
+install.packages(rticles)
+if (!require(knitr)) 
+install.packages(knitr)
+if (!require(citr)) 
+install.packages(citr)
+if (!require(shiny)) 
+install.packages(shiny)
+if (!require(flextable)) 
+install.packages(flextable)
+if (!require(scales)) 
+install.packages(scales)
+if (!require(tidyverse)) 
+install.packages(tidyverse)
+if (!require(lubridate)) 
+install.packages(lubridate)
+if (!require(ggpubr)) 
+install.packages(ggpubr)
+if (!require(gridExtra)) 
+install.packages(gridExtra)
+if (!require(Hmisc)) 
+install.packages(Hmisc)
+if (!require(brms)) 
+install.packages(brms)
+if (!require(bayesplot)) 
+install.packages(bayesplot)
+
+```
+
+# 1. Introduction (this needs expanding and more references, but for now it is just an overview of the rationale behind the experiment)
+
+* Obligatory quote from Alice in Wonderland
+
+* An environment changes. 
+
+* It's important for a forager to understand how and why that environment changes so as to exploit it effectively.
+
+* The foraging ecology of a nectar-feeding bat
+
+* This is how it goes about the process of foraging
+
+* How does it track the environment? How does it exploit that environment?
+
+* What are the feedback mechanisms here? 
+
+In this experiment bats of the species *Glossophaga soricina* were given a choice between two options: a 'fixed' option and a 'variable' option. The fixed option gave a reward of 7 μL every time the animal visited it. The reward output of the variable option varied as a sine function of time; the peak output of the sine wave was larger than output of fixed option, and the trough was smaller than the fixed option. The bats experienced four periods of the sine wave (the period of the wave defined as the time between two successive peaks of the wave): 0.75 hours (45 minutes); 1.5 hours; 3 hours and 6 hours.  
+
+# Materials and Methods
+## The Animals 
+The experiment was done in December 2019 at the Cognitive Neurobiology Lab in Humboldt University, Berlin. Bats of the species *Glossophaga soricina* from a colony bred in captivity at the Humboldt University were used for the experiment. The colony was a breeding population housed at 18-24$^\circ$C and 45-70% humidity on a 12-hour light-dark cycle (light phase: 2 AM to 2 PM CET). In this colony every bat older than approximately 1 year is assigned a permanent ID number, which shall be referred to in this report to distinguish the individuals. 19 bats of both sexes were selected for the experiment. Of these, one male did not interact with the experimental apparatus (Bat12) at all and was excluded on the second day; two other individuals were removed from the experiment at later stages: Bat 51 (female) because she stopped interacting with the experimental apparatus and Bat64 (male) because he began to show signs of poor health. This left 16 individuals, 5 males and 11 females, that completed the entire experiment (see Table 1)
+
+**Table 1 - A summary of the individuals, their sexes and whether they completed the experiment**
+```{r message = FALSE, warning = FALSE, message = FALSE, echo=FALSE, results='asis'}
+if(!require(knitr)){install.packages('knitr')}
+library(knitr)
+if(!require(kableExtra)){install.packages('kableExtra')}
+library(kableExtra)
+
+table1 <- data.frame(Individual = c("12","22","45","43","64","16","30"), 
+                    Status = c("Excluded: did not participate in the experiment", "Completed", "Completed", "Completed", "Excluded: poor health", "Completed", "Completed"))
+kable(table1, align = 'l', padding = 0, caption = "Males") %>%
+    kable_styling(position = "left", full_width = F)
+
+table2 <- data.frame(Individual = c("51","101","67","95","77","87","46","100","103","80","102","25"), 
+                    Status = c("Excluded: stopped participating in the experiment", "Completed", "Completed", "Completed", "Completed", "Completed","Completed", "Completed", "Completed", "Completed", "Completed", "Completed"))
+kable(table2, align = 'l', padding = 0, caption = "Females") %>%
+    kable_styling(position = "left", full_width = F)
+```
+## Experimental Setup
+### Reward
+The reward received by the bats during the experiment was also their main source of food. The reward was a 17% by weight solution of sugar dissolved in water (prepared fresh every 1-2 days), hereafter referred to as 'nectar'. The sugar consisted of a 1:1:1 mass-mixture of sucrose, fructose and dextrose. The nectar was thus similar in composition and concentration to the nectar produced by wild chiropterophilous plants (Baker et al., 1998).
+
+### Experimental Apparatus
+The animals were placed in individual, adjacent cages (0.7 x 1.5 x 2.2 m) for the duration of the experiment. As there were 6 cages in total the experiment was carried out in 3 batches of bats. The first batch had 4 bats as the excluded individuals were part of this batch, and the other two batches had 6 bats each. Each cage had an operant wall with two electronic reward-dispensing devices spaced 40 cm apart, hereafter referred to as 'flowers'. Each flower had a circular head and a door controlled by a linear-actuator motor that could move up and down. The flowers were connected by means of ethernet cables to a laptop computer (ThinkPad, IBM) that stood outside the cages. Just inside the head was an infra-red light barrier, and at the back of the flower was a Teflon tube that supplied the nectar to the flower. Each Teflon tube was connected to a short piece of soft peroxide-silicone tube that ran through a pinch-valve. The Teflon tubes then connected to a syringe pump via a branching design that ensured the length of tube between every flower and the pump was exactly equal to 470 cm. 
+
+The pump was placed outside the cages on a shelf, inaccessible to the bats. It was controlled by the Phenosoft Control program (Phenosys, Version xx). The number of steps the pump moved was set by the program and this determined the volume of liquid moved through the tubes. The 'conversion factor' between pump steps and liquid volume was 0.324, i.e., for every step the pump moved, 0.324 μL of 17% nectar was pushed through the system. The syringe of the pump was a Hamilton 25 mL glass syringe (Sigma Aldrich) and connected to the tubing system of the flowers through 5 pinch valves. These pinch valves controlled the flow of liquid from the pump to the system and from a reservoir of liquid to the pump. 
+A reservoir (500 mL thread bottle, Roth, Germany) was filled with fresh nectar every day and connected to the syringe through the valves. The nectar was then pushed by the syringe through the valves into the tubes. When a bat placed its nose inside the flower and broke the infra-red light barrier, the computer triggered the opening of the pinch valve, the pump moved a programmed number of steps, and in this way the bat received a volume of reward pre-determined by the program. 
+
+**A description of the software used to collect the data**
+
+## General Experimental Procedure
+
+Stuff about the pump filling 
+On a daily basis the old nectar was flushed out of the system by the pump, and then filled with fresh nectar. Twice a week, the tubing system was given a thorough cleaning: de-calcified water was flushed through the system, then 70% denatured alcohol which was allowed to stand in the system for 1 hour, then water was flushed through the system again before re-filling with fresh nectar. 
+
+```{r}
+
+# reading in the pump data from the subjective mean experiment
+Pump_subjmean <- read.csv2("data/Pump_subj.csv", sep = ";", header = TRUE)
+
+#calculating the pump fill time 
+Pump_subjmean <- Pump_subjmean %>% 
+  filter(SystemMsg == "start pump" | SystemMsg == "end pump") %>% 
+  mutate(interval = ifelse(SystemMsg == "start pump", as.numeric(difftime(lead(DateTime), DateTime, units = "secs")), "non-fill time")) %>% 
+  select(DateTime, IdLabel, Cond, MsgValue1, interval) %>% 
+  arrange(DateTime) %>% 
+  filter(interval != "non-fill time", 
+         interval < 300) %>% 
+  mutate(interval = as.integer(interval)/60) %>% 
+  summarise(mean_filltime = round(mean(interval), digits = 2),  
+            sd_filltime = round(sd(interval), digits = 4))
+
+# reading in the pump data from the subjective mean experiment
+Pump_objmean <- read.csv2("data/Pump_obj.csv", sep = ";", header = TRUE)
+
+#calculating the pump fill time 
+Pump_objmean <- Pump_objmean %>% 
+  filter(SystemMsg == "start pump" | SystemMsg == "end pump") %>% 
+  mutate(interval = ifelse(SystemMsg == "start pump", as.numeric(difftime(lead(DateTime), DateTime, units = "secs")), "non-fill time")) %>% 
+  select(DateTime, IdLabel, Cond, MsgValue1, interval) %>% 
+  arrange(DateTime) %>% 
+  filter(interval != "non-fill time", 
+         interval < 300) %>% 
+  mutate(interval = as.integer(interval)/60) %>% 
+  summarise(mean_filltime = round(mean(interval), digits = 2),  
+            sd_filltime = round(sd(interval), digits = 4))
+
+```
+
+## Experimental Design
+### Pre-training
+The bats that were selected for the experiment were a mix of animals that had previously been exposed to the system and naive ones. On the first day of the experiment the bats were placed inside the cages and allowed to acclimatize to the new environment. The light-dark cycle was identical to the one in the housing room, lights going off at 2 PM and on at 2 AM. The flowers were covered with a towel to prevent the animals accessing them, and containers of honey water were placed on top of the covered flowers. No other food was provided. This was to teach the bats that food could be found only at the location of the flowers. All the bats easily found the honey water. 
+
+### Training
+On this day and all subsequent days data were collected only during the dark phase of the day (during the light phase the experiment was prepared for the following night). Shortly before 2 PM, the towels were removed from the flowers to give the bats access to them. In this way the animals would be more motivated to explore this new feature of their environment. To teach the bats to put their noses into the flower head and trigger the reward, the doors in front of the flowers were lowered and a drop of honey was applied to the back of the flower and a drop to the top of the flower. From this day until the end of the experiment, the bats were also given supplemental food in addition to the nectar from the flowers: 0.2 g of a powdered nectar mixture (NEKTAR-Plus, NEKTON GmbH, Pforzheim) and 0.3 g of the baby food Milasan (Milasan "Folgemilch 2", German Baby Food GmbH, Bad Homburg) mixed in ~1 mL of water; and 2 mL of plain water. These were given to the bats in small Eppendorf tubes attached to the operant wall of the cage but about xx cm below the flowers (xx cm from the ground). The additional food was such that the bats would prefer to visit the flowers instead, both because they were at a more comfortable height for the animals and because the nectar was much sweeter and preferable to the Milasan-Nectarplus mixture. The additional food was given firstly to supply micronutrients to the bats while they were in the experiment, and secondly to ensure the animals received a sufficient number of calories in the event of a technical system failure in the pump/flower system, or a low number of visits to the flowers. On the morning after the Training stage and everyday after, the data from the experimental night were checked, and any bat found to have consumed less than 25 kJ of energy (calculated from the nectar volume consumed) was given honey water. The bat was first caught and hand-fed, and then the honey water remained in its cage for 1 hour. 
+
+The training proceeded in five stages that repeated throughout the night. 
+
+1. **Initial:** The doors in front of the flowers remained open, and the bats could pay a visit to whichever flower they wanted. They received a reward volume of 25 $\mu$L at both flowers. Once 50 visits had been made in total, the next phase of training began. 
+
+2. **Forced 1:** This was a phase of forced alternation. At the start of this phase, the door in front of one of the flowers moved up to prevent access to it, forcing the bat to visit the other one. After a visit was made and the reward collected, the door of the visited flower would move up to block access to it, and door of the other flower would open. In this way the bat was alternately forced to visit both flowers, even if they hadn't before, and therefore learn that that there were two locations where food could be obtained. At this phase there was a difference in reward volume between the two flowers. Two pairs of volumes were possible: 7 and 2 $\mu$L; 7 and 25 $\mu$L. 7 $\mu$L was the reward volume given by the fixed option, 25 $\mu$L the maximum reward volume of the variable option and 2 $\mu$L the minimum reward volume of the variable option. It was therefore important that the bats should be able to discriminate between these pairs of volumes, and the aim of this phase was to teach the bats which location gave the higher reward. Half the bats received the pair 7 v 2 and the other half 25 v 7 in this phase (which bats received which pair was decided pseudo-randomly). Half the bats obtained the higher volume at the feeder to the right and the other half at the feeder to the left. After 50 visits in total (25 to each flower) the experiment moved to the next phase. 
+
+3. **Free 1:** This was a phase of ad-libitum reward similar to the Initial phase: both flower doors were open so both flowers were freely accessible to the bats. The volume differences of the Forced 1 phase persisted. As the bats were free to visit both flowers, the preference of the bats for the flower that gave the higher volume was taken as indication of the discriminability of the volumes. After 50 visits total the experiment moved to the next phase. 
+
+4. **Forced 2:** This was another phase of forced alternation, exactly the same as the Forced 1 phase except the volume pairs were different. Those bats that received the 7 v 2 $\mu$L volume pair in the Forced 1 phase now received 25 v 7 $\mu$L and vice versa. Half the bats received the higher volume at the same flower as Forced 1 and the other half at the other flower. After 50 visits in total, 25 to each flower, the experiment moved to the next phase.
+
+5. **Free 2:** This was similar to the Free 1 phase, in that both flowers were accessible and reward was ad-libitum, but the reward volumes at the flowers were the same as those in the phase Forced 2. In this way the bats' preferences for the higher volume of both volume pairs was determined. This phase also lasted for 50 visits in total. 
+After the bats had completed all five phases, the experiment went back to the Forced 1 phase and all the phases except the Initial phase repeated themselves in order for the rest of the night. 
+At approximately 6 PM in the night the data were checked to see if all the bats had made at least 2 visits to the flowers, and thus learned to trigger rewards. Data from pilot experiments showed that if a bat had not learned to make a visit and trigger a reward by this time, it would not do so for the rest of the night. Such animals received honey water like they did on the Pre-training day, and on the next day they were removed from the experiment and replaced with another animal (previous attempts to repeat the Training day with such a bat had failed). If a bat learned to trigger rewards and made visits, but not a sufficient number to experience all 5 phases at least once it had to repeat the Training stage on the next night. If the bat did not complete all 5 phases even on the second day it was to be removed from the experiment and replaced. 
+
+### Main Experiment
+The bats experienced four experimental conditions, corresponding to four periods of the sine wave: 
+
+* 0.75 hours
+* 1.5 hours
+* 3 hours
+* 6 hours
+
+During each 12 hour experimental night the bats were given free choice between the fixed option and the variable option whose output varied by a sine function of time. We aimed to choose reward volumes that the bats would perceive as subjectively equal, i.e., the difference between the maximum output of the sine wave and the fixed option would be perceived the same way as the difference between the minimum output of the sine wave and the fixed option. The fixed option was not the arithmetic mean of the sine wave, but at the point of 'subjective equality', chosen based on the psychometric curve for volume discrimination in *G. soricina* (Toelch and Winter, 2012). The reward volume of the fixed option was always 7 μL; the variable option gave a reward of 25 $\mu$L at its peak, decreasing to a minimum of 2 μL at its trough. 
+
+Our criterion for inclusion in statistical analysis was that the animals be informed of all available options on every night of the experiment. This meant that the animals had to pay at least one visit to both options every night to be included in further analysis. To this end, on the assumption that whichever flower a bat had made more visits to during the Training stage was preferred, this flower was assigned as the variable option on the first day of the main experiment. The sine function did not begin until the bat had made its first visit to the variable option, and then it started at the peak of the wave. It was thought that experiencing such a rich reward would motivate the bats to continue making visits to the variable option and thus allow the bat to experience its changing output. Our criterion for inclusion in statistical analysis was that a bat must experience both the fixed and the variable option on every single night. After the bat made its first visit to the variable option, the output of this option changed as a sine function of time according to the sine-wave formula: 
+
+y(t) = Asin(2$\pi$ft + $\varphi$) + D
+
+where: 
+
+* A - Amplitude of the wave, or the distance between the peak and the middle value of the wave
+* f - frequency of the wave, or the reciprocal of the wave period in seconds 
+* t - time point in seconds since the start of the wave
+* $\varphi$ - Phase, specifying in units of radians where the wave is when t = 0 
+* D - Displacement, or a center Amplitude that is not = 0
+
+The bats first experienced a condition for a night, during which the fixed and variable options remained at the flowers they were assigned to. On the following night there was a 'reversal': the flower that had previously been the fixed option was now the variable and vice versa. This was done to control for a location preference by the bats. After the bats had experienced a condition on two successive nights in this way, the next condition was given, so there were 4x2 or 8 experimental nights in total in addition to the training nights. The order of the conditions was pseudo-randomized across animals. 
+
+Once an animal had completed the experiment, it was removed from the cage, weighed to see if it had lost weight since the start of the experiment, released back into the colony and replaced with another bat.
+
+### Experiment 1
+
+### Experiment 2
+
+## Software
+# Results and summary figures
+
+```{r}
+# reading in the training data
+Training <- read.csv2("data/Training_roc.csv", sep = ";", header = TRUE)
+# reading in the main experimental data
+Main <- read.csv2("data/Main_roc.csv", sep = ";", header = TRUE)
+
+#-------------------------------------------------------------
+# calculating the sine function for the main experimental days 
+#-------------------------------------------------------------
+# putting together the two tables 
+Main <- Main %>% 
+  mutate(Tracking = as.character(Tracking)) %>% 
+  select(-Amplitude, -Disp)
+
+# setting the parameters for volume calculation, sine wave calculation and pump-step conversions
+# pump steps for the fixed option
+# experiment 1
+fixed_steps_s <- 22
+# experiment 2
+fixed_steps_o <- 42
+# pump steps for the maximum volume of the fluctuating option
+maxsine_steps <- 76
+# pump steps for the minimum volume of the fixed option
+minsine_steps <- 6
+# conversion factor between pump-steps and microLitres of volume
+step_conv <- 0.324
+
+# converting the rewards from pump-step units to microLitres
+maxsine <- step_conv * maxsine_steps
+minsine <- step_conv * minsine_steps
+fixed_s <- step_conv * fixed_steps_s
+fixed_o <- step_conv * fixed_steps_o
+
+# setting the value of the amplitude of the sine wave in pump steps
+Amplitude <- 35
+# setting the value of the displacement of the sine wave above 0 at the first time point in pump steps
+Disp <- 41
+
+# adding a period-day column to the table
+Main <- Main %>%
+  mutate(
+    Rev = ifelse(Reversal == 1, "Rev", "")) %>% 
+  unite(Period_day, c(Period, Rev), sep = " ", remove = FALSE) %>% 
+  # removing the now redundant columns
+  select(-Rev, -Reversal)
+
+# making a table to calculate the sine-wave for all the bats:
+
+# preparing the data
+sinewave <- Main %>%
+  # filtering only the visits to the fluctuating output
+  filter(outFuncLabel == "sineRewOut") %>%
+  # selecting relevant columns from the main table to calculate the sine wave
+  select(Experiment, Day, IdLabel, Period, Period_day, timediff, Tracking) %>%
+  group_by(Experiment, Day, IdLabel) %>%
+  mutate(
+    Period = as.numeric(str_remove(Period_day, "Rev")), 
+    # adding a row counter
+    rown = 1:n(),
+    # adding a column with the number of points on the calculated sine wave
+    reps = 360
+  ) %>%
+  # taking the first occurrence of the fluctuating output
+  filter(rown == 1)
+
+# noting the number of columns in the data frame
+nsine <- as.numeric(ncol(sinewave))
+
+# repeating the rows by the number of points on the wave so the whole sine wave can be calculated
+sinewave <- sinewave[rep(row.names(sinewave), sinewave$reps), 1:nsine]
+
+# adding a column with the actual time increments
+sinewave <- sinewave %>%
+  # removing the old row counter so it can be done over
+  select(-rown) %>%
+  group_by(Day, IdLabel) %>%
+  mutate(
+    # calculating the row counter again
+    rown = 1:n(),
+    # calculating the time differences with the proper increments: 12 hours are divided among 360 points on the wave
+    timediff = ifelse(rown == 1, timediff, (lag(timediff) + (12 / 360) * (rown - 1))),
+    # creating a dummy time column to calculate the wave so it starts at the peak regardless of the timediff column
+    wavetime = 0,
+    wavetime = ifelse(rown == 1, 0, (lag(wavetime) + (12 / 360) * (rown - 1))),
+    # converting the time values back to seconds
+    Period = Period * 3600,
+    # converting the dummy time column to seconds
+    wavetime = wavetime * 3600,
+    # calculating the sine wave values and converting from pump step values to microLitres
+    sine_vol = (Amplitude * sin(2 * pi * (1 / Period) * wavetime + (pi / 2)) + Disp) * step_conv,
+    Period = Period / 3600
+  ) %>%
+  # removing time points that occurred after 12 hours by the calculation
+  filter(timediff <= 12) %>%
+  # removing the now-unnecessary columns
+  select(-wavetime, -reps, -rown)
+```
+
+## Main experimental stage
+
+```{r echo=FALSE, warning=FALSE, message=FALSE, include=FALSE}
+Main <- read.csv2("Main_roc.csv", sep = ";", header = TRUE)
+step_conv <- 0.324 #re-assigning the variable for the conversion factor between pump steps and volume
+maxsine <- as.numeric(step_conv*76)
+minsine<- as.numeric(step_conv*6)
+
+#Making a table with the periods and noting the reversal days
+Periods <- Main %>%
+  select(Day, IdLabel, Period, Tracking, Reversal) %>% 
+  group_by(Day, IdLabel) %>%
+  distinct(Day, IdLabel, Period, Tracking, Reversal) %>%
+  mutate(Rev = "Rev", Period = as.character(Period),
+         Period_day = ifelse(Reversal == 0, Period, paste(Period, Rev)), Period = as.numeric(Period)) %>%
+  select(-Rev, -Reversal)
+
+#Adding the 'period-day' column to the main table
+Main <- Main %>% ungroup() 
+Main <- left_join(Main, Periods, by = c("Day", "IdLabel", "Period", "Tracking"))
+
+#Making a table with the complete sinewave values to plot in the graph
+Sinewave <- Main %>% 
+  select(Day, IdLabel, Amplitude, Period, Disp, outFuncLabel, timediff, Tracking, Period_day) %>% 
+  group_by(Day, IdLabel, outFuncLabel) %>% 
+  mutate(timeleft = 12/240, #dividing the 12 hours by the number of repetitions
+         rown = 1:n(),
+         reps = 240) %>% #number of repetitions
+  filter(outFuncLabel == "sineRewOut", rown == 1) %>% 
+  #this table only has the first occurrence of the sine wave for each day and bat
+  ungroup() %>%
+  group_by(Day, IdLabel)
+
+Sinewave <- Sinewave[rep(row.names(Sinewave), Sinewave$reps), 1:10] 
+#repeating values to calculate time differences
+Sinewave <- Sinewave %>% 
+  mutate(row_n = 1:n()) #creating a complete row counter
+n <- nrow(Sinewave) #calculating the time differences
+for (i in 1:n) {
+  if(Sinewave$row_n[i] == 1) {
+    Sinewave$timediff[i] <- as.numeric(Sinewave$timediff[i])
+  } else {
+    Sinewave$timediff[i] <- as.numeric(Sinewave$timediff[i] + (Sinewave$row_n[i])*(Sinewave$timeleft[i]))
+  }
+}
+
+#Calculating the values of the sine wave according to the formula
+Sinewave <- Sinewave %>% 
+  mutate(Period = Period*3600, #converting the time values back to seconds
+         timediff = timediff*3600, 
+         sine_vol = (Amplitude*sin(2*pi*(1/Period)*timediff + (pi/2)) + Disp)*step_conv, 
+         timediff = timediff/3600, Period = Period/3600) %>% 
+  filter(timediff <= 12) %>%
+  group_by(Period_day, IdLabel)
+
+#Preparing the right-hand axis for many of the following plots 
+optionchoice <- c("F", "V")
+```
+
+Two clear strategies were observed in the main experimental phase. The locations of the fixed and variable options were always reversed between the two flowers on the second night of a condition to control for the bats' location preferences. While most of the bats made visits to both options on both nights, a minority did not. 4 out of the 16 bats made visits near-exclusively to the same flower on both nights of a condition, regardless of whether that flower was the fixed or the variable option. We designated these bats the 'reversal non-responders' as reversing the location of the fixed and variable options induced no behavioural response. 
+
+### Choice Behaviour 
+
+**Reversal Responsive Bats**
+
+The animals that did respond to the reversal showed a change in their choice of location corresponding to the output of the sine wave. This is represented in Figure 3. 
+
+```{r echo=FALSE, warning=FALSE, message=FALSE, fig.align='center', fig.width = 17, fig.height = 9, fig.cap = "Figure 3: Choice behaviour of the reversal responsive bats through the course of the experimental night. Each row is one night of experimental condition, each column an individual bat. The solid black represents the output of the variable option and the red points each individual visit made by a bat. The red points to the top of the plot are visits made to the variable option and those at the bottom of the plot are visits made to the fixed option. The blue lines are a smoothing function applied to the choices of the bats"}
+
+Periods_tr <- Periods %>% filter(Tracking == "tracker") #Periods for the responsive bats
+Sinewave_tr <- Sinewave %>% filter(Tracking == "tracker") #Sinewave for the responsive bats
+
+Main %>% 
+  filter(Tracking == "tracker") %>%
+  mutate(smooth = as.numeric(tsSmooth(StructTS(chosen, type = "level")))) %>%
+  ggplot(aes(timediff)) +
+  geom_line(data = Sinewave_tr, aes(timediff, sine_vol)) +
+  geom_point(aes(y = chosen), colour = "red", alpha = 0.05, size = 1) +
+  geom_line(aes(y = smooth), color = "cornflowerblue") +
+  scale_x_continuous(breaks = seq(0,12,1)) +
+  geom_hline(yintercept = 7, linetype = 2) +
+  xlab("Hour") +
+  ylab(expression(paste("Volume output of the variable option [", mu, "L]"))) +
+  scale_y_continuous(limits = c(minsine, maxsine), 
+                     sec.axis = sec_axis(~.,
+                                         breaks = c(minsine, maxsine),
+                                         labels = optionchoice)) + 
+  facet_grid(Period_day ~ IdLabel, scales = "free_y") +
+  theme_classic() +
+  theme(plot.title = element_text(size=12)) +
+  theme(strip.placement = "outside")
+```
+
+**Non-responsive Bats** 
+
+The first time point of the sine function was the first visit made by a bat to the variable option (see **Materials and Methods**). This meant that on those nights the fixed option was assigned to the preferred flower of a reversal non-responsive bat, the bat never experienced the changing output of the variable option and was thus 'uninformed' of all available options. By our criterion described above, these animals were excluded from statistical analyses. 
+
+The choice behaviour of these bats is shown in Figure 4. 
+ 
+```{r echo=FALSE, warning=FALSE, message=FALSE, fig.align='center', fig.cap = "Figure 4: Choice behaviour of the reversal non-responsive bats through the course of the experimental night. Each row is one night of experimental condition, each column an individual bat. The solid black represents the output of the variable option and the red points each individual visit made by a bat. The red points to the top of the plot are visits made to the variable option and those at the bottom of the plot are visits made to the fixed option"}
+
+Periods_nt <- Periods %>% filter(Tracking == "non-tracker") #Periods for the non-responsive bats
+Sinewave_nt <- Sinewave %>% filter(Tracking == "non-tracker") #Sinewave for the non-responsive bats
+
+Main %>% 
+  filter(Tracking == "non-tracker") %>%
+  ggplot(aes(timediff)) +
+  geom_line(data = Sinewave_nt, aes(timediff, sine_vol)) +
+  geom_point(aes(y = chosen), colour = "red", alpha = 0.05, size = 1) +
+  scale_x_continuous(breaks = seq(0,12,1)) +
+  geom_hline(yintercept = 7, linetype = 2) +
+  xlab("Hour") +
+  ylab(expression(paste("Volume output of the variable option [", mu, "L]"))) +
+  scale_y_continuous(limits = c(minsine, maxsine), 
+                     sec.axis = sec_axis(~.,
+                                         breaks = c(minsine, maxsine),
+                                         labels = optionchoice)) + 
+  facet_grid(Period_day ~ IdLabel, scales = "free_y") +
+  theme_classic() +
+  theme(plot.title = element_text(size=12)) +
+  theme(strip.placement = "outside")
+```
+
+### Preference for the profitable choice
+
+The accuracy of the responsive bats was overall quite high, where accuracy is defined as the proportion of visits to the option that yields a higher volume output at the time of any given visit. This can be seen in Figure 5. In the case of the non-responsive bats, there were days when the variable option was never visited as the fixed option was at the preferred location. On these days the sine function never began, and thus the reward volume available there was always 25 $\mu$L. This meant that the bat was always choosing the less profitable option and had an accuracy of 0. 
+
+```{r echo=FALSE, warning=FALSE, message=FALSE, fig.align='center', fig.width = 8, fig.height = 4, fig.cap = "Figure 5: Proportion of choices to the more profitable option at any given time by the a) Reversal-responders and the b) Reversal-non-responders"}
+
+fixed_steps <- 22 # pump steps for the fixed option
+Main <- Main %>%
+  group_by(Day, IdLabel) %>%
+  mutate(Prof = ifelse(sine_steps > reinforce1value, 0, 1), 
+         Prof_side = ifelse(outFuncLabel == "fixRewOut", 1, 0)) %>% 
+  ungroup() %>% 
+  group_by(Period, IdLabel) %>%
+  mutate(Prof = case_when(outFuncLabel == "sineRewOut" & reinforce1value >= fixed_steps ~ 1, 
+                          outFuncLabel == "sineRewOut" & reinforce1value < fixed_steps ~ 0,
+                          outFuncLabel == "fixRewOut" & reinforce1value >= sine_steps ~ 1,
+                          outFuncLabel == "fixRewOut" & reinforce1value < sine_steps ~ 0),
+         #these lines to figure out whether a particular choice was profitable or not
+         Prof_side = ifelse(outFuncLabel == "fixRewOut", 1, 0)) %>%
+  ungroup() %>%
+  group_by(Period, IdLabel)
+
+p1 <- Main %>%
+  filter(Tracking == "tracker") %>% 
+  group_by(Period, IdLabel) %>%
+  summarise(mean_prof = mean(Prof), total_n = n()) %>%
+  ggplot(aes(as.factor(Period), mean_prof, group = IdLabel, color = IdLabel)) +
+  geom_point() +
+  geom_line() +
+  xlab("Period and reversal") +
+  ylab("Proportion of visits to the profitable option") +
+  geom_hline(yintercept = 0.5, linetype = 2) +
+  scale_y_continuous(limits = c(0,1)) +
+  ylab ("Profitability of Choice") +
+  theme_classic() +
+  ggtitle("a)") +
+  theme(plot.title = element_text(size=12)) +
+  scale_fill_viridis_d()
+
+p2 <- Main %>%
+  filter(Tracking == "non-tracker") %>% 
+  group_by(Period, IdLabel) %>%
+  summarise(mean_prof = mean(Prof), total_n = n()) %>%
+  ggplot(aes(as.factor(Period), mean_prof, group = IdLabel, color = IdLabel)) +
+  geom_point() +
+  geom_line() +
+  xlab("Period and reversal") +
+  ylab("Proportion of visits to the profitable option") +
+  geom_hline(yintercept = 0.5, linetype = 2) +
+  scale_y_continuous(limits = c(0,1)) +
+  ylab ("Profitability of Choice") +
+  theme_classic() +
+  ggtitle("b)") +
+  theme(plot.title = element_text(size=12)) +
+  scale_fill_viridis_d()
+
+grid.arrange(p1, p2, ncol = 2)
+```
+
+### Rate of work
+
+**Reversal Responsive Bats:**
+
+The foraging environment of the bats in this experiment is not static: it fluctuates through 'rich' phases when the output of the variable option is high and 'lean' phases when the output of the variable option is low. A foraging bat could use many strategies to exploit such a regularly changing environment. Apart from choosing the more profitable option at any time, the bats could also make visits more or less frequently to take advantage of the environment's richness. To examine the frequency of visits made, or 'rate of work', the time course of the experiment was divided into small time intervals of 2 minutes, and the number of visits per interval counted. This can be seen in Figure 6. 
+
+```{r echo=FALSE, warning=FALSE, message=FALSE, fig.align='center', fig.width = 17, fig.height = 9, fig.cap = "Figure 6: The rate of work of the reversal-responsive bats, binned in 2 minute intervals"}
+
+#Adding a column to the Main table with the data points binned into time-intervals
+Main <- Main %>%
+  mutate(time_bins = case_when(Period == 0.75 ~ floor_date(as_datetime(DateTime), unit = "2 minute"), 
+                               Period == 1.5 ~ floor_date(as_datetime(DateTime), unit = "2 minute"),
+                               Period == 3 ~ floor_date(as_datetime(DateTime), unit = "2 minute"), 
+                               Period == 6 ~ floor_date(as_datetime(DateTime), unit = "2 minute")))
+#Making a lookup table for the binsize
+#binratio <- 1/18 
+#this is the only variable that needs to be set for the analyses below: 
+#the size of the bin for the data as a ratio of the wave period. Here it is set as 1/18
+
+Datetimes <- Main %>%
+  ungroup() %>%
+  select(Period_day, IdLabel, DateTime, Tracking) %>%
+  group_by(Period_day, IdLabel) %>%
+  mutate(DateTime = as.POSIXct(DateTime),
+         Half = ifelse(as.numeric(hour(DateTime)) <= 2, 2, 1), 
+         Date = date(DateTime)) %>%
+  select(-DateTime) %>%
+  unique() %>%
+  arrange(IdLabel)
+
+timeseries_df <- function(x) {
+  timeseries_x <- data.frame(Datetime = seq.POSIXt(from = as.POSIXct("2019-12-01 14:00:00"), to = as.POSIXct("2019-12-31 02:00:00"), by = 120),
+                                                     #(as.numeric(round(x*60*binratio)))*60), 
+                             Period_day = x, 
+                             Period_rev = paste(x, "Rev")) %>%
+    mutate(Period_day = as.character(Period_day), 
+           Period_rev = as.character(Period_rev)) %>%
+    gather("Rev", "Period_day", 2:3, na.rm = TRUE) %>%
+    select(-Rev)
+}
+
+#the function can be made cleaner and produce the final table in one step but this will do for now
+timeseries_0.75 <- timeseries_df(0.75)
+timeseries_1.5 <- timeseries_df(1.5)
+timeseries_3 <- timeseries_df(3)
+timeseries_6 <- timeseries_df(6)
+
+timeseries <- bind_rows(timeseries_0.75, timeseries_1.5, timeseries_3, timeseries_6) %>%
+  mutate(Datetime = as.POSIXct(Datetime),
+         Date = date(Datetime), 
+         Hour = as.numeric(hour(Datetime)),
+         Half = ifelse(hour(Datetime) <= 2, 2, 1)) %>%
+  filter(Hour < 2 | Hour >= 14) %>%
+  select(-Hour)
+
+rm(timeseries_0.75, timeseries_1.5, timeseries_3, timeseries_6)
+
+timeseries <- left_join(timeseries, Datetimes, by = c("Period_day", "Date", "Half")) %>% 
+  filter(!is.na(IdLabel)) %>%
+  rename(time_bins = Datetime) 
+
+Workrate <- Main %>% 
+  select(DateTime, Period_day, IdLabel, vis_vol, time_bins, Tracking) %>%
+  mutate(DateTime = as.POSIXct(DateTime), 
+         Date = date(DateTime), 
+         Half = ifelse(hour(DateTime) <= 2, 2, 1)) #all clear so far
+  
+Workrate <- full_join(timeseries, Workrate, by = c("time_bins", "Period_day", "Date", "Half", "IdLabel", "Tracking"), keep = TRUE) %>%
+  mutate(Hour = as.numeric(hour(time_bins))) %>% 
+  filter(Hour < 2 | Hour >= 14) %>%
+  select(-Hour, -DateTime) %>%
+  mutate(vis_vol = replace_na(vis_vol, 0)) %>% 
+  arrange(IdLabel, Period_day, time_bins)
+
+Workrate_binned <- Workrate %>%
+  mutate(IdLabel = as.character(IdLabel), 
+         visit = ifelse(vis_vol > 0, 1, 0)) %>%
+  group_by(Period_day, time_bins, IdLabel, Tracking) %>%
+  summarise(n_vis = sum(visit)) %>%
+  ungroup() %>%
+  group_by(Period_day, IdLabel) %>%
+  mutate(timediff = (as.numeric(difftime(time_bins, min(time_bins), units = "hours")))) %>% 
+  ungroup() %>% 
+  group_by(Period_day) %>% 
+  mutate(range = max(n_vis) - min(n_vis), 
+         min = min(n_vis), 
+         Period = as.numeric(str_remove(Period_day, "Rev")), 
+         Day_rev = ifelse(str_detect(Period_day, "Rev"), "Reversal", "Condition"))
+
+Range <- Workrate_binned %>% 
+  select(Period, Period_day, IdLabel, range, min) %>% 
+  distinct()
+
+Sinewave_tr <- Sinewave %>% filter(Tracking == "tracker") 
+Sinewave_tr <- left_join(Sinewave_tr, Range, by = c("Period", "Period_day", "IdLabel")) %>%
+  mutate(scaled_sine = ((sine_vol-minsine)*range/(maxsine-minsine))+min)
+
+Workrate_binned %>%
+  filter(Tracking == "tracker") %>%
+  ggplot() +
+  geom_line(data = Sinewave_tr, aes(x = timediff, y = scaled_sine)) +
+  geom_line(aes(timediff, y = n_vis), color = "darkorange1") +
+  scale_x_continuous(breaks = seq(0,12,1)) + 
+  xlab("Hour") +
+  ylab("Rate of Work") +
+  facet_grid(Period_day ~ IdLabel, scales = "free_y") +
+  theme_classic() +
+  theme(plot.title = element_text(size=12)) +
+  theme(strip.placement = "outside")
+
+```
+
+[The periodicity of the rate of work should be talked about here - this is waiting on the analyses from Jan-Hendrik Schleimer from the ITB.]
+
+**Non-Responsive Bats**
+
+[Periodicity in the non-responsive bats even though on half the days they did not experience a periodic environment at all - this bit to be written later]
+
+```{r echo=FALSE, warning=FALSE, message=FALSE, fig.align='center', fig.width = 17, fig.height = 9, fig.cap = "Figure 7: The rate of work of the reversal-non-responsive bats, binned in 2 minute intervals"}
+
+Range <- Workrate_binned %>% 
+  select(Period, Period_day, IdLabel, range, min) %>% 
+  distinct()
+
+Sinewave_nt <- Sinewave %>% filter(Tracking == "non-tracker") 
+Sinewave_nt <- left_join(Sinewave_nt, Range, by = c("Period", "Period_day", "IdLabel")) %>%
+  mutate(scaled_sine = ((sine_vol-minsine)*range/(maxsine-minsine))+min)
+
+Workrate_binned %>%
+  filter(Tracking == "non-tracker") %>%
+  ggplot() +
+  geom_line(data = Sinewave_nt, aes(x = timediff, y = scaled_sine)) +
+  geom_line(aes(timediff, y = n_vis), color = "darkorange1") +
+  scale_x_continuous(breaks = seq(0,12,1)) + 
+  xlab("Hour") +
+  ylab("Rate of Work") +
+  facet_grid(Period_day ~ IdLabel, scales = "free_y") +
+  theme_classic() +
+  theme(plot.title = element_text(size=12)) +
+  theme(strip.placement = "outside")
+
+```
+
+### The role of memory
+
+As the environment of the bats did not change stochastically but gradually and deterministically, we reasoned that the animals' memory of the variable option could be playing a role in their choice behaviour. We made the assumption that the more recent an animal's experience of the variable option, the more relevant it was. To simplify things, the bats' memory of the variable option was taken to be the average of the last 'k' visits to the variable option and all previous visits were ignored. The relationship of this memory to the probability of visiting the variable option is plotted in Figure 8, with only the data from the responsive animals considered. 
+
+```{r echo=FALSE, warning=FALSE, message=FALSE, fig.align='center', fig.width = 6, fig.height = 12, fig.cap = "Figure 8: Probability of visiting the variable option as a function of memory of the variable option averaged across all the bats and across the two days of each condition. The numbers in bold indicate the total number of visits made when the memory of the variable option was below the fixed option and above the fixed option, indicated by the vertical dashed line. The memory 'window' was the last k visits and k was set to a) 1 b) 10 c) 50"}
+
+roll_mean_var_side <- function(volumes, sides, k) { #function to take the average of the last k visits to the variable option
+  
+  output <- 1:length(volumes)
+  indices <- sides > 0
+  if (sum(indices) == 0) return(rep(NA, length(volumes)))
+  output[indices] <- runmean(volumes[indices], k = k, endrule = "NA", align = "right")
+  output
+  output[!indices] <- NA
+  zoo::na.locf(output, na.rm = FALSE)
+}
+
+Rolling_means <- Main %>%
+  filter(Tracking == "tracker") %>%
+  ungroup() %>%
+  group_by(Period_day, IdLabel) %>%
+  mutate(var_visited = ifelse(str_sub(outFuncLabel, 1, 1) == "s", 1, 0),
+         var_vol = ifelse(var_visited == 1, vis_vol, NA))
+
+#k = 1
+
+Rolling_means <- Rolling_means %>%
+  mutate(memory = roll_mean_var_side(vis_vol, var_visited, k = 1))
+
+#this table is just the visits to the 'low' and 'high' parts of the plot
+Visits <- Rolling_means %>%
+  mutate(low = ifelse(memory < 7, 4, 20)) %>% 
+  group_by(Period, low) %>% 
+  filter(low != is.na(low)) %>%
+  summarise(count = n()) %>% 
+  rename(memory = low) %>%
+  mutate(var_visited = 0.1) 
+
+Low_visits <- Visits %>% 
+  filter(memory == 4) #only the visits when the memory was low
+High_visits <- Visits %>% 
+  filter (memory == 20) #only the visits when the memory was high
+
+#Plot with the number of 'low' and 'high' visits marked
+p1 <- Rolling_means %>%
+  ggplot(aes(memory, var_visited)) +
+  # geom_point(alpha = 0.05, color = "purple") +
+  geom_smooth() +
+  geom_vline(xintercept = 7, linetype = 2) +
+  geom_hline(yintercept = 0.5, linetype = 2) +
+  xlab("Volume memory of the variable option") +
+  ylab("Prob. of visiting the variable option") +
+  ylim(c(0, 1)) +
+  facet_grid(. ~ Period) +
+  theme_classic() +
+  ggtitle("a)") + 
+  geom_text(data = Low_visits, aes(label = count, group = Period, fontface = "bold"), size = 3) + 
+  geom_text(data = High_visits, aes(label = count, group = Period, fontface = "bold"), size = 3)
+
+#k = 10
+
+Rolling_means <- Rolling_means %>%
+  mutate(memory = roll_mean_var_side(vis_vol, var_visited, k = 10))
+
+#this table is just the visits to the 'low' and 'high' parts of the plot
+Visits <- Rolling_means %>%
+  mutate(low = ifelse(memory < 7, 4, 20)) %>% 
+  group_by(Period, low) %>% 
+  filter(low != is.na(low)) %>%
+  summarise(count = n()) %>% 
+  rename(memory = low) %>%
+  mutate(var_visited = 0.1) 
+
+Low_visits <- Visits %>% 
+  filter(memory == 4) #only the visits when the memory was low
+High_visits <- Visits %>% 
+  filter (memory == 20) #only the visits when the memory was high
+
+#Plot with the number of 'low' and 'high' visits marked
+p2 <- Rolling_means %>%
+  ggplot(aes(memory, var_visited)) +
+  # geom_point(alpha = 0.05, color = "purple") +
+  geom_smooth() +
+  geom_vline(xintercept = 7, linetype = 2) +
+  geom_hline(yintercept = 0.5, linetype = 2) +
+  xlab("Volume memory of the variable option") +
+  ylab("Prob. of visiting the variable option") +
+  ylim(c(0, 1)) +
+  facet_grid(. ~ Period) +
+  theme_classic() +
+  ggtitle("b)") + 
+  geom_text(data = Low_visits, aes(label = count, group = Period, fontface = "bold"), size = 3) + 
+  geom_text(data = High_visits, aes(label = count, group = Period, fontface = "bold"), size = 3)
+
+#k = 50 
+
+Rolling_means <- Rolling_means %>%
+  mutate(memory = roll_mean_var_side(vis_vol, var_visited, k = 50))
+
+#this table is just the visits to the 'low' and 'high' parts of the plot
+Visits <- Rolling_means %>%
+  mutate(low = ifelse(memory < 7, 4, 20)) %>% 
+  group_by(Period, low) %>% 
+  filter(low != is.na(low)) %>%
+  summarise(count = n()) %>% 
+  rename(memory = low) %>%
+  mutate(var_visited = 0.1) 
+
+Low_visits <- Visits %>% 
+  filter(memory == 4) #only the visits when the memory was low
+High_visits <- Visits %>% 
+  filter (memory == 20) #only the visits when the memory was high
+
+#Plot with the number of 'low' and 'high' visits marked
+p3 <- Rolling_means %>%
+  ggplot(aes(memory, var_visited)) +
+  # geom_point(alpha = 0.05, color = "purple") +
+  geom_smooth() +
+  geom_vline(xintercept = 7, linetype = 2) +
+  geom_hline(yintercept = 0.5, linetype = 2) +
+  xlab("Volume memory of the variable option") +
+  ylab("Prob. of visiting the variable option") +
+  ylim(c(0, 1)) +
+  facet_grid(. ~ Period) +
+  theme_classic() +
+  ggtitle("c)") + 
+  geom_text(data = Low_visits, aes(label = count, group = Period, fontface = "bold"), size = 3) + 
+  geom_text(data = High_visits, aes(label = count, group = Period, fontface = "bold"), size = 3)
+
+grid.arrange(p1, p2, p3, nrow = 3)
+```
+
+Interestingly, when faced with a wave period of 45 minutes, the probability of visiting the variable option was always higher than 50% even when the variable option is less rewarding than the fixed. As the wave period increases, the bats become more likely to visit the fixed option when it is more profitable: the range of probabilities of visiting the variable option increases with period (Figure 9). 
+
+```{r echo=FALSE, warning=FALSE, message=FALSE, fig.align='center', fig.width = 18, fig.height = 4, fig.cap = "Figure 9: Standardized range of probabilities of visiting the variable option when the memory of the variable option goes back a) 1 visit b) 10 visits c) 50 visits"}
+
+Rolling_means <- Main %>%
+  filter(Tracking == "tracker") %>%
+  ungroup() %>%
+  group_by(Period_day, IdLabel) %>%
+  mutate(var_visited = ifelse(str_sub(outFuncLabel, 1, 1) == "s", 1, 0),
+         var_vol = ifelse(var_visited == 1, vis_vol, NA))
+
+#k = 1
+Rolling_means <- Rolling_means %>%
+  mutate(memory = roll_mean_var_side(vis_vol, var_visited, k = 1))
+
+Range <- Rolling_means %>% 
+  group_by(Period) %>%
+  mutate(pred_prob = ifelse(is.na(memory), 0, predict(gam(var_visited ~ memory)))) %>%
+  filter(pred_prob != 0) %>%
+  summarize(max_prob = max(pred_prob), min_prob = min(pred_prob)) %>%
+  mutate(range = max_prob - min_prob, 
+         std_range = range/max(range), 
+         Period = as.factor(Period))
+
+p1 <- Range %>%
+  ggplot(aes(Period, std_range)) + 
+  geom_point() + 
+  ylim(0,1) +
+  xlab("Period") + 
+  ylab("Standardized range of P(visiting the variable option)") +
+  ggtitle("a)") + 
+  theme_bw()
+
+#k = 10
+Rolling_means <- Rolling_means %>%
+  mutate(memory = roll_mean_var_side(vis_vol, var_visited, k = 10))
+
+Range <- Rolling_means %>% 
+  group_by(Period) %>%
+  mutate(pred_prob = ifelse(is.na(memory), 0, predict(gam(var_visited ~ memory)))) %>%
+  filter(pred_prob != 0) %>%
+  summarize(max_prob = max(pred_prob), min_prob = min(pred_prob)) %>%
+  mutate(range = max_prob - min_prob, 
+         std_range = range/max(range), 
+         Period = as.factor(Period))
+
+p2 <- Range %>%
+  ggplot(aes(Period, std_range)) + 
+  geom_point() + 
+  ylim(0,1) +
+  xlab("Period") + 
+  ylab("Standardized range of P(visiting the variable option)") +
+  ggtitle("b)") + 
+  theme_bw()
+
+#k = 50
+Rolling_means <- Rolling_means %>%
+  mutate(memory = roll_mean_var_side(vis_vol, var_visited, k = 50))
+
+Range <- Rolling_means %>% 
+  group_by(Period) %>%
+  mutate(pred_prob = ifelse(is.na(memory), 0, predict(gam(var_visited ~ memory)))) %>%
+  filter(pred_prob != 0) %>%
+  summarize(max_prob = max(pred_prob), min_prob = min(pred_prob)) %>%
+  mutate(range = max_prob - min_prob, 
+         std_range = range/max(range), 
+         Period = as.factor(Period))
+
+p3 <- Range %>%
+  ggplot(aes(Period, std_range)) + 
+  geom_point() + 
+  ylim(0,1) +
+  xlab("Period") + 
+  ylab("Standardized range of P(visiting the variable option)") +
+  ggtitle("c)") +
+  theme_bw()
+
+grid.arrange(p1, p2, p3, ncol = 3)
+```
+
+### Distribution of inter-visit intervals
+
+The time between successive visits, or inter-visit intervals (IVIs) is the 'when' part of a bat's strategy (the 'where' being the location of the visit). Simply by varying its IVIs a bat can exploit its available options in a very efficient way, for example by paying visits to the variable option only when its output is high, and resting when its output is low. Figure 10 shows the distribution of IVIs for the responsive and non-responsive bats. The two curves are the distributions from when the environment is in its 'rich' phase: the variable output is higher than the fixed output; and the 'lean phase: the variable output is lower than the fixed output. 
+
+```{r echo=FALSE, warning=FALSE, message=FALSE, fig.align='center', fig.width = 17, fig.height = 9, fig.cap = "Figure 10: The distribution of inter-visit intervals in the rich and the lean periods for a) the reversal-responsive bats b) the reversal non-responsive bats"}
+
+Main <- Main %>%
+  group_by(Period_day, IdLabel) %>%
+   mutate(interval = as.integer(difftime(lead(DateTime), DateTime, units = "secs")),
+          richness = factor(if_else(sine_vol >= 7, 1, 0))) %>%
+  filter(!is.na(reinforce1value))
+
+#Frequency distribution of inter-visit intervals with all the data
+#a. Tracking bats
+p1 <- Main %>%
+  filter (Tracking == "tracker") %>%
+  ggplot(aes(interval, fill = richness)) +
+  geom_density(alpha = 0.3) +
+  facet_grid(IdLabel ~ Period_day) +
+  scale_x_log10() +
+  theme_bw() +
+  xlab("intervisit intervals [s]") +
+  ggtitle("a)") +
+  theme(axis.title = element_text(size = 18)) +
+  scale_fill_viridis_d()
+
+#b. Non-tracking bats
+p2 <- Main %>%
+  filter (Tracking == "non-tracker") %>%
+  ggplot(aes(interval, fill = richness)) +
+  geom_density(alpha = 0.3) +
+  facet_grid(IdLabel ~ Period_day) +
+  scale_x_log10() +
+  theme_bw() +
+  xlab("intervisit intervals [s]") +
+  ggtitle("b)") +
+  theme(axis.title = element_text(size = 18)) +
+  scale_fill_viridis_d()
+
+grid.arrange(p1, p2, nrow = 2)
+```
+
+If the distribution of IVIs has a later peak in the lean phase than in the rich phase, this indicates that the bats take more time between successive visits when the environment yields poorer rewards, saving the cost of repeated flights. This can be seen more clearly in a cumulative distribution plot of the IVIs in Figure 11.  
+
+```{r echo=FALSE, warning=FALSE, message=FALSE, fig.align='center', fig.width = 17, fig.height = 15, fig.cap = "Figure 11: The cumulative distribution of inter-visit intervals of the reversal-responsive bats in the rich and lean periods "}
+
+Main %>%
+  filter(Tracking == "tracker") %>%
+  group_by(Period_day, IdLabel, richness) %>%
+  ggplot(aes(interval, colour = richness)) +
+  stat_ecdf() +
+  facet_grid(IdLabel ~ Period_day) +
+  scale_x_log10() +
+  theme_bw() +
+  xlab("intervisit intervals [s]") +
+  ylab("CDF") +
+  theme(axis.title = element_text(size = 18)) 
+```
+
+```{r echo=FALSE, warning=FALSE, message=FALSE, fig.align='center', fig.width = 17, fig.height = 5, fig.cap = "Figure 12: The cumulative distribution of inter-visit intervals of the reversal-non-responsive bats in the rich and lean periods "}
+#b. Non-tracking bats
+Main %>%
+  filter(Tracking == "non-tracker") %>%
+  group_by(Period_day, IdLabel, richness) %>%
+  ggplot(aes(interval, colour = richness)) +
+  stat_ecdf() +
+  facet_grid(IdLabel ~ Period_day) +
+  scale_x_log10() +
+  theme_bw() +
+  xlab("intervisit intervals [s]") +
+  ylab("CDF") +
+  theme(axis.title = element_text(size = 10)) 
+```
+
+For most animals on most days the distributions of IVIs in the rich and lean phase seem to overlap. 
+
+Do the bats vary the timing of their visits in the different conditions? The distribution of inter-visit intervals in the 4 conditions is plotted in Figure 13. 
+
+```{r echo=FALSE, warning=FALSE, message=FALSE, fig.align='center', fig.width = 4, fig.height = 9, fig.cap = "Figure 13: Distribution of inter-visit intervals in the 4 conditions"}
+Main %>%
+  ungroup() %>%
+  mutate(Period = as.factor(Period)) %>%
+  group_by(Period, IdLabel) %>%
+  ggplot(aes(interval, fill = Period)) +
+  geom_density(alpha = 0.2) +
+  scale_x_log10() +
+  facet_grid(IdLabel~.) +
+  theme_bw() +
+  xlab("intervisit intervals [s]") +
+  scale_fill_viridis_d()
+```
+
+There do not appear to be large differences in the distributions across the 4 conditions. 
+
+# Discussion and Conclusions - this needs re-writing
+
+The bats can clearly differentiate between the volumes selected, although they can discriminate between the volumes with the larger absolute difference. The volumes were selected based on the psychometric curve for volume discrimination in bats in such a way, theoretically, that the two volumes in each pair would have the same subjective difference. However it does not appear that the bats perceive them in that way as the volume pair 25 v 7 $\mu$L seems to be more easily discriminable than the volume pair 7 v 2 $\mu$L. This could potentially be due to mechanical issues with the pump and tubing system. Small errors in the number of pump steps or small fluctuations in the pressure of the system could have made the smaller absolute difference in volume harder to discriminate for the bats.
+
+When faced with the fixed and variable options, the majority of bats seemed to respond to the changing output of the variable option. As seen in Figure 3, these responsive bats' choice behaviour roughly followed the output of the variable option, indicating a sort of environment tracking behaviour. This seemed to be more pronounced as the period of the wave increased, potentially because the variable option was only very briefly in its 'bad' state (output smaller than the fixed option)  when the wave period was 45 minutes: possibly the bats could eat enough during the 'good' state to remain sated through the bad state and thus were not motivated to pay many visits to the fixed option. When the period was 6 hours the variable option was in its 'bad' state for about 2 hours, too long for the bats to stay without making visits and thus motivating them to visit the fixed option. 
+
+Despite being informed of the location of the two flowers as food sources as well as the fact that a the locations changed its output on alternate nights, a minority of bats visited only one location and did not respond to the reversals. 
+
+As discussed in the **Results and summary figures**, in responding to a changing environment, a bat can change where it makes visits and when it makes visits. In visiting both available options a bat varies both the 'where' and 'when' of its visits. A reversal-non-responsive animal however does not change the 'where' of its visits but only the 'when'. What sort of strategy could that result in? Looking at the distribution of the IVIs, it does appear that some of the non-responsive animals show longer IVIs when the environment is relatively poor (the output of the variable option is low), but then, so do many of the responsive animals. There does not, however, seem to be a great deal of difference in the distribution of IVIs across the 4 periods; in fact, the distributions seem remarkably consistent across all 4 conditions. 
+
+If a reversal-non-responsive bat represents an extreme reliance on a 'when' strategy, then what does an extreme 'where' strategy look like? One version of this would be visits made at equal intervals all night long, and only the location of the visits varying based on the state of the environment. Clearly none of the bats, even the reversal-responsive ones, showed such a strategy. 
+
+The quality of the environment changed in a deterministic way, and it is reasonable to think the bats might be relying on their memory of the variable option to make a decision. 
+
+As the maximum range of probabilities is at the 6-hour period, it appears the probability of visiting the fixed option is higher when the wave period is higher as well. The longer the memory window the smaller the range and the higher the probabilility of 
+
+[Question: how do you actually compare these plots to the data? Probability of visiting the variable vs actual output of the variable option?]
+
+
+# Future experiments
+
+* The volume experiment 
+
+* Sampling and the systematic variation of reward volume + temporal availability
+
+* Something related to memory
+
+* Strategies: and what they mean. 
+
+# Supplementary Information
+## Training stage: stable volume discrimination 
+```{r echo=FALSE, warning=FALSE, message=FALSE, include=FALSE}
+if(!require(tidyverse)){install.packages('tidyverse')}
+library(tidyverse)
+if(!require(scales)){install.packages('scales')}
+library(scales)
+if(!require(lubridate)){install.packages('lubridate')}
+library(lubridate)
+if(!require(stringr)){install.packages('stringr')}
+library(stringr)
+if(!require(caTools)){install.packages('caTools')}
+library(caTools)
+if(!require(mgcv)){install.packages('mgcv')}
+library(mgcv)
+
+Training <- read.csv2("Training_roc.csv", sep = ";", header = TRUE)
+Training <- Training %>% 
+  mutate(Phase = factor(Phase, levels = c("Initial", "Forced1", "Free1", "Forced2", "Free2")))
+Viscount <- Training %>% 
+  group_by(Day, IdLabel) %>%
+  summarise(sumvis = sum(unitLabel)) %>%
+  ungroup() %>%
+  summarise(meanvis = mean(sumvis), 
+            sdvis = sd(sumvis)) 
+Meanvis <- Viscount %>% pull(meanvis)
+Sdvis <- Viscount %>% pull(sdvis)
+rm(Viscount)
+```
+The bats made on average about `r round(Meanvis, digits = 2)` visits at the Training stage (standard deviation `r round(Sdvis, digits = 2)`), and only one of the bats had to repeat the Training day due to too few visits. 
+They nearly always paid a greater number of visits to the option that yielded a higher volume of reward (Figure 1).
+
+```{r echo=FALSE, warning=FALSE, message=FALSE, fig.align='center', fig.cap = "Figure 1: Number of visits to the two options during the Training stage. Numbers in bold are the number of visits paid to the two options", fig.height=13, fig.width=16}
+ggplot(Training) + 
+    geom_bar(
+      aes(x = as.factor(Phase), y = unitLabel, fill = as.factor(vis_vol), group = Flower), 
+      stat='identity', position = 'dodge'
+    ) +
+  scale_fill_manual(values = c("skyblue","royalblue", "blue")) +
+    labs(fill = "Volume of reward") + 
+    geom_text(
+      aes(x = as.factor(Phase), y = unitLabel, label = unitLabel, group = Flower, fontface = "bold"),
+      position = position_dodge(width = 1),
+      vjust = -0.6, size = 3.8
+    ) +
+    #geom_text(
+    #  aes(x = as.factor(Phase), y = unitLabel, label = Flower, group = Flower), 
+    #  position = position_dodge(width = 1), 
+    #  vjust = -3, size = 4
+    #) + 
+    facet_wrap(IdLabel~., scales = "free_x") +
+    theme_bw() +
+    scale_y_continuous(limits = c(0, 340)) +
+    xlab("Experiment Phase") + 
+    ylab("Number of Visits") +
+    theme(axis.title = element_text(size = 18), 
+          axis.text.x = element_text(angle = 30, size = 13, vjust = 1.1, hjust = 1), 
+          strip.text.x = element_text(size = 9, margin = margin(0.08,0,0.08,0, "cm")), 
+          #strip.text.y = element_text(margin = margin(0.08,0,0.08,0, "cm")), 
+          legend.title = element_text(size=18),
+          legend.text = element_text(size=18))
+```
+The proportion of visits made by the bats to the higher volume of a pair is shown in Figure 2. While overall a greater proportion of visits was made to the higher volume of a pair (Figure 2a), this was lower for the pair '7 v 2' than '25 v 7'. 
+
+```{r echo=FALSE, warning=FALSE, message=FALSE, fig.align='center', fig.cap = "Figure 2a: Difference in preference for the higher volume between the pair 25 v 7 and the pair 7 v 2. Figure 2b: Average preference for the higher option", fig.width = 14, fig.height = 7}
+
+if(!require(gridExtra)){install.packages('gridExtra')} #install the gridExtra package if not already installed
+library(gridExtra) 
+
+#Creating a dataframe with these data
+choices <- Training %>% 
+  ungroup() %>% 
+  filter(Phase == "Free1"| Phase == "Free2") %>% 
+  select(-Flower) %>%
+  spread(vis_vol, unitLabel, sep = "") %>% 
+  mutate(Pair = ifelse(is.na(vis_vol25), "7 v 2", "25 v 7"),
+           vis_vol2 = replace_na(vis_vol2, 0),
+           vis_vol25 = replace_na(vis_vol25, 0),
+           vis_vol7 = replace_na(vis_vol7, 0),
+           pref_high = ifelse(Pair == "7 v 2", 
+                              vis_vol7/(vis_vol7+vis_vol2), vis_vol25/(vis_vol7+vis_vol25))) %>%
+  select(-Phase, -vis_vol2, -vis_vol7, -vis_vol25)
+
+#a. Plotting proportion of visits for individual bats
+n_bats <- 16 #This is the number of bats
+p1 <- choices %>% 
+  ungroup() %>% 
+  group_by(Pair) %>% 
+  summarise(mean_pref = mean(pref_high),
+            stdev_pref = sd(pref_high)) %>% 
+  ggplot(aes(Pair, mean_pref)) +
+  geom_point() +
+  geom_errorbar(aes(ymin = mean_pref - stdev_pref/sqrt(n_bats), ymax = mean_pref + stdev_pref/sqrt(n_bats)), width = 0.25, position=position_dodge(.1)) +
+  scale_y_continuous(limits = c(0,1)) + 
+  xlab("Pair") + 
+  ylab("Preference for the higher option +/- SEM") + 
+  ggtitle("b)") +
+  geom_hline(yintercept = 0.5, linetype = 2) +
+  theme_bw() + 
+  theme(plot.title = element_text(size = 11))
+
+#b. Plotting proportion of visits averaged across bats
+choices <- choices  %>%
+  spread(Pair, pref_high) %>%
+  mutate(diff_pref = `25 v 7` - `7 v 2`, 
+         difference = "25 v 7 - 7 v 2") 
+
+p2 <- choices %>%
+  group_by(difference) %>%
+  ggplot(aes(difference, diff_pref, color = IdLabel)) + 
+  geom_point() + 
+  ylab("Difference in preference for the higher option") +
+  geom_hline(yintercept = 0, linetype = 2) +
+  theme_bw() 
+
+grid.arrange(p1, p2, ncol = 2)
+```
+

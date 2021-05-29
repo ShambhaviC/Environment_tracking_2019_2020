@@ -1,0 +1,33 @@
+Day,Path,Comments
+1,exp2_objective_mean/raw_data/Rateofchange-20.06.16.csv,Training
+,exp2_objective_mean/raw_data/Rateofchange-20.06.17.csv,Rate of change - this day is to be discarded because the reversal for this condition was not executed properly
+,exp2_objective_mean/raw_data/Rateofchange-20.06.18.csv,Rate of change - this day is to be discarded because the reversal for this condition was not executed properly
+2,exp2_objective_mean/raw_data/Rateofchange-20.06.19.csv,Rate of change
+3,exp2_objective_mean/raw_data/Rateofchange-20.06.20.csv,Rate of change
+4,exp2_objective_mean/raw_data/Rateofchange-20.06.21.csv,Rate of change
+5,exp2_objective_mean/raw_data/Rateofchange-20.06.22.csv,Rate of change
+6,exp2_objective_mean/raw_data/Rateofchange-20.06.23.csv,Rate of change
+7,exp2_objective_mean/raw_data/Rateofchange-20.06.24.csv,Rate of change
+8,exp2_objective_mean/raw_data/Rateofchange-20.06.25.csv,Rate of change
+9,exp2_objective_mean/raw_data/Rateofchange-20.06.26.csv,Rate of change
+10,exp2_objective_mean/raw_data/Rateofchange-20.06.28.csv,Training
+11,exp2_objective_mean/raw_data/Rateofchange-20.06.29.csv,Training+Rate of change
+12,exp2_objective_mean/raw_data/Rateofchange-20.06.30.csv,Training+Rate of change
+13,exp2_objective_mean/raw_data/Rateofchange-20.07.01.csv,Training+Rate of change
+14,exp2_objective_mean/raw_data/Rateofchange-20.07.02.csv,Rate of change
+15,exp2_objective_mean/raw_data/Rateofchange-20.07.03.csv,Rate of change
+16,exp2_objective_mean/raw_data/Rateofchange-20.07.04.csv,Rate of change
+17,exp2_objective_mean/raw_data/Rateofchange-20.07.05.csv,Rate of change
+18,exp2_objective_mean/raw_data/Rateofchange-20.07.06.csv,Rate of change
+19,exp2_objective_mean/raw_data/Rateofchange-20.07.07.csv,Rate of change
+20,exp2_objective_mean/raw_data/Rateofchange-20.07.08.csv,Rate of change
+21,exp2_objective_mean/raw_data/Rateofchange-20.07.09.csv,Rate of change
+22,exp2_objective_mean/raw_data/Rateofchange-20.07.15.csv,Training
+23,exp2_objective_mean/raw_data/Rateofchange-20.07.16.csv,Rate of change
+24,exp2_objective_mean/raw_data/Rateofchange-20.07.17.csv,Rate of change
+25,exp2_objective_mean/raw_data/Rateofchange-20.07.18.csv,Rate of change
+26,exp2_objective_mean/raw_data/Rateofchange-20.07.19.csv,Rate of change
+27,exp2_objective_mean/raw_data/Rateofchange-20.07.20.csv,Rate of change
+28,exp2_objective_mean/raw_data/Rateofchange-20.07.21.csv,Rate of change
+29,exp2_objective_mean/raw_data/Rateofchange-20.07.22.csv,Rate of change
+30,exp2_objective_mean/raw_data/Rateofchange-20.07.23.csv,Rate of change
