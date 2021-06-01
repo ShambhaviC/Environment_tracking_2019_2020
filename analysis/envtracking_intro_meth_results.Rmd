@@ -1,5 +1,6 @@
 ---
 title: "Tracking a changing environment"
+<<<<<<< HEAD
 always_allow_html: yes
 output:
   bookdown::word_document2:
@@ -10,11 +11,18 @@ output:
      toc: no
 bibliography: srl.bib
  #csl: animal-cognition.csl
+=======
+author: "Shambhavi"
+date: "26 May 2020"
+output: html_document
+fig_caption: yes
+>>>>>>> b0b37ba89a8b318b108b3c253439413edef11f33
 ---
 <style>
 body {
 text-align: justify}
 </style>
+<<<<<<< HEAD
 ---
 
 ```{r setup, include=FALSE}
@@ -61,12 +69,32 @@ install.packages(brms)
 if (!require(bayesplot)) 
 install.packages(bayesplot)
 
+=======
+
+```{r global_options, echo=FALSE, warning=FALSE, message=FALSE, include=FALSE}
+# clearing the environment
+rm(list = ls())
+
+# checking if rmarkdown and reshape2 are installed, and installing them if they are not 
+if(!require(rmarkdown)){install.packages('rmarkdown')}
+library(rmarkdown)
+if(!require(reshape2)){install.packages('reshape2')}
+library(reshape2)
+
+#knitr::opts_chunk$set(echo=FALSE, warning=FALSE, message=FALSE, include=TRUE)
+
+#Set the working directory just once
+knitr::opts_knit$set(root.dir = "/Users/shambhavi/Google Drive/Experiments & Data/Environmental Tracking - Berlin_2019/Rate of environmental change/CSVs")
+>>>>>>> b0b37ba89a8b318b108b3c253439413edef11f33
 ```
 
 # 1. Introduction (this needs expanding and more references, but for now it is just an overview of the rationale behind the experiment)
 
+<<<<<<< HEAD
 * Obligatory quote from Alice in Wonderland
 
+=======
+>>>>>>> b0b37ba89a8b318b108b3c253439413edef11f33
 * An environment changes. 
 
 * It's important for a forager to understand how and why that environment changes so as to exploit it effectively.
@@ -112,6 +140,7 @@ The animals were placed in individual, adjacent cages (0.7 x 1.5 x 2.2 m) for th
 The pump was placed outside the cages on a shelf, inaccessible to the bats. It was controlled by the Phenosoft Control program (Phenosys, Version xx). The number of steps the pump moved was set by the program and this determined the volume of liquid moved through the tubes. The 'conversion factor' between pump steps and liquid volume was 0.324, i.e., for every step the pump moved, 0.324 μL of 17% nectar was pushed through the system. The syringe of the pump was a Hamilton 25 mL glass syringe (Sigma Aldrich) and connected to the tubing system of the flowers through 5 pinch valves. These pinch valves controlled the flow of liquid from the pump to the system and from a reservoir of liquid to the pump. 
 A reservoir (500 mL thread bottle, Roth, Germany) was filled with fresh nectar every day and connected to the syringe through the valves. The nectar was then pushed by the syringe through the valves into the tubes. When a bat placed its nose inside the flower and broke the infra-red light barrier, the computer triggered the opening of the pinch valve, the pump moved a programmed number of steps, and in this way the bat received a volume of reward pre-determined by the program. 
 
+<<<<<<< HEAD
 **A description of the software used to collect the data**
 
 ## General Experimental Procedure
@@ -153,6 +182,10 @@ Pump_objmean <- Pump_objmean %>%
 
 ```
 
+=======
+On a daily basis the old nectar was flushed out of the system by the pump, and then filled with fresh nectar. Twice a week, the tubing system was given a thorough cleaning: de-calcified water was flushed through the system, then 70% denatured alcohol which was allowed to stand in the system for 1 hour, then water was flushed through the system again before re-filling with fresh nectar. 
+
+>>>>>>> b0b37ba89a8b318b108b3c253439413edef11f33
 ## Experimental Design
 ### Pre-training
 The bats that were selected for the experiment were a mix of animals that had previously been exposed to the system and naive ones. On the first day of the experiment the bats were placed inside the cages and allowed to acclimatize to the new environment. The light-dark cycle was identical to the one in the housing room, lights going off at 2 PM and on at 2 AM. The flowers were covered with a towel to prevent the animals accessing them, and containers of honey water were placed on top of the covered flowers. No other food was provided. This was to teach the bats that food could be found only at the location of the flowers. All the bats easily found the honey water. 
@@ -200,6 +233,7 @@ The bats first experienced a condition for a night, during which the fixed and v
 
 Once an animal had completed the experiment, it was removed from the cage, weighed to see if it had lost weight since the start of the experiment, released back into the colony and replaced with another bat.
 
+<<<<<<< HEAD
 ### Experiment 1
 
 ### Experiment 2
@@ -303,6 +337,136 @@ sinewave <- sinewave %>%
   filter(timediff <= 12) %>%
   # removing the now-unnecessary columns
   select(-wavetime, -reps, -rown)
+=======
+## Software
+A description of the software used to collect the data
+
+# Results and summary figures
+Faced with two options, one of which gives a stable output and the other a temporally varying output, a bat can change two aspects of its behaviour: 
+
+* Where it makes a visit, i.e., to which option 
+
+* When it makes a visit
+
+A bat could different strategies to exploit its environment by changing when and where it pays visits. 
+The following figures explore these aspects of the data. 
+
+## Training stage: stable volume discrimination 
+```{r echo=FALSE, warning=FALSE, message=FALSE, include=FALSE}
+if(!require(tidyverse)){install.packages('tidyverse')}
+library(tidyverse)
+if(!require(scales)){install.packages('scales')}
+library(scales)
+if(!require(lubridate)){install.packages('lubridate')}
+library(lubridate)
+if(!require(stringr)){install.packages('stringr')}
+library(stringr)
+if(!require(caTools)){install.packages('caTools')}
+library(caTools)
+if(!require(mgcv)){install.packages('mgcv')}
+library(mgcv)
+
+Training <- read.csv2("Training_roc.csv", sep = ";", header = TRUE)
+Training <- Training %>% 
+  mutate(Phase = factor(Phase, levels = c("Initial", "Forced1", "Free1", "Forced2", "Free2")))
+Viscount <- Training %>% 
+  group_by(Day, IdLabel) %>%
+  summarise(sumvis = sum(unitLabel)) %>%
+  ungroup() %>%
+  summarise(meanvis = mean(sumvis), 
+            sdvis = sd(sumvis)) 
+Meanvis <- Viscount %>% pull(meanvis)
+Sdvis <- Viscount %>% pull(sdvis)
+rm(Viscount)
+```
+The bats made on average about `r round(Meanvis, digits = 2)` visits at the Training stage (standard deviation `r round(Sdvis, digits = 2)`), and only one of the bats had to repeat the Training day due to too few visits. 
+They nearly always paid a greater number of visits to the option that yielded a higher volume of reward (Figure 1).
+
+```{r echo=FALSE, warning=FALSE, message=FALSE, fig.align='center', fig.cap = "Figure 1: Number of visits to the two options during the Training stage. Numbers in bold are the number of visits paid to the two options", fig.height=13, fig.width=16}
+ggplot(Training) + 
+    geom_bar(
+      aes(x = as.factor(Phase), y = unitLabel, fill = as.factor(vis_vol), group = Flower), 
+      stat='identity', position = 'dodge'
+    ) +
+  scale_fill_manual(values = c("skyblue","royalblue", "blue")) +
+    labs(fill = "Volume of reward") + 
+    geom_text(
+      aes(x = as.factor(Phase), y = unitLabel, label = unitLabel, group = Flower, fontface = "bold"),
+      position = position_dodge(width = 1),
+      vjust = -0.6, size = 3.8
+    ) +
+    #geom_text(
+    #  aes(x = as.factor(Phase), y = unitLabel, label = Flower, group = Flower), 
+    #  position = position_dodge(width = 1), 
+    #  vjust = -3, size = 4
+    #) + 
+    facet_wrap(IdLabel~., scales = "free_x") +
+    theme_bw() +
+    scale_y_continuous(limits = c(0, 340)) +
+    xlab("Experiment Phase") + 
+    ylab("Number of Visits") +
+    theme(axis.title = element_text(size = 18), 
+          axis.text.x = element_text(angle = 30, size = 13, vjust = 1.1, hjust = 1), 
+          strip.text.x = element_text(size = 9, margin = margin(0.08,0,0.08,0, "cm")), 
+          #strip.text.y = element_text(margin = margin(0.08,0,0.08,0, "cm")), 
+          legend.title = element_text(size=18),
+          legend.text = element_text(size=18))
+```
+The proportion of visits made by the bats to the higher volume of a pair is shown in Figure 2. While overall a greater proportion of visits was made to the higher volume of a pair (Figure 2a), this was lower for the pair '7 v 2' than '25 v 7'. 
+
+```{r echo=FALSE, warning=FALSE, message=FALSE, fig.align='center', fig.cap = "Figure 2a: Difference in preference for the higher volume between the pair 25 v 7 and the pair 7 v 2. Figure 2b: Average preference for the higher option", fig.width = 14, fig.height = 7}
+
+if(!require(gridExtra)){install.packages('gridExtra')} #install the gridExtra package if not already installed
+library(gridExtra) 
+
+#Creating a dataframe with these data
+choices <- Training %>% 
+  ungroup() %>% 
+  filter(Phase == "Free1"| Phase == "Free2") %>% 
+  select(-Flower) %>%
+  spread(vis_vol, unitLabel, sep = "") %>% 
+  mutate(Pair = ifelse(is.na(vis_vol25), "7 v 2", "25 v 7"),
+           vis_vol2 = replace_na(vis_vol2, 0),
+           vis_vol25 = replace_na(vis_vol25, 0),
+           vis_vol7 = replace_na(vis_vol7, 0),
+           pref_high = ifelse(Pair == "7 v 2", 
+                              vis_vol7/(vis_vol7+vis_vol2), vis_vol25/(vis_vol7+vis_vol25))) %>%
+  select(-Phase, -vis_vol2, -vis_vol7, -vis_vol25)
+
+#a. Plotting proportion of visits for individual bats
+n_bats <- 16 #This is the number of bats
+p1 <- choices %>% 
+  ungroup() %>% 
+  group_by(Pair) %>% 
+  summarise(mean_pref = mean(pref_high),
+            stdev_pref = sd(pref_high)) %>% 
+  ggplot(aes(Pair, mean_pref)) +
+  geom_point() +
+  geom_errorbar(aes(ymin = mean_pref - stdev_pref/sqrt(n_bats), ymax = mean_pref + stdev_pref/sqrt(n_bats)), width = 0.25, position=position_dodge(.1)) +
+  scale_y_continuous(limits = c(0,1)) + 
+  xlab("Pair") + 
+  ylab("Preference for the higher option +/- SEM") + 
+  ggtitle("b)") +
+  geom_hline(yintercept = 0.5, linetype = 2) +
+  theme_bw() + 
+  theme(plot.title = element_text(size = 11))
+
+#b. Plotting proportion of visits averaged across bats
+choices <- choices  %>%
+  spread(Pair, pref_high) %>%
+  mutate(diff_pref = `25 v 7` - `7 v 2`, 
+         difference = "25 v 7 - 7 v 2") 
+
+p2 <- choices %>%
+  group_by(difference) %>%
+  ggplot(aes(difference, diff_pref, color = IdLabel)) + 
+  geom_point() + 
+  ylab("Difference in preference for the higher option") +
+  geom_hline(yintercept = 0, linetype = 2) +
+  theme_bw() 
+
+grid.arrange(p1, p2, ncol = 2)
+>>>>>>> b0b37ba89a8b318b108b3c253439413edef11f33
 ```
 
 ## Main experimental stage
@@ -936,6 +1100,107 @@ Main %>%
 
 There do not appear to be large differences in the distributions across the 4 conditions. 
 
+<<<<<<< HEAD
+=======
+### Is there a bout structure in the distribution of inter-visit intervals? 
+
+Previous data gathered from wild bats (Nachev et al., 2019) indicated that bats showed a 'bout' structure in the distribution of IVIs. There is a bimodal structure to the distribution: the shorter IVIs occur within a foraging bout when the bat is making visits in rapid succession; the larger IVIs occur between foraging bouts. The wild bats had a clear 'bout break criterion' of 120 seconds: IVIs smaller than that were judged as 'within-bout' and IVIs larger than that were judged as 'between-bout'. 
+The distribution of the IVIs for all the bats on all the days is given in Figure 14. These are the same data as those plotted in Figure 13 except they are not overlapping.  
+
+```{r echo=FALSE, warning=FALSE, message=FALSE, fig.align='center', fig.width = 17, fig.height = 9, fig.cap = "Figure 14: Distribution of visits for all the bats in each of the 4 conditions"}
+Main %>%
+  ungroup() %>%
+  #filter (Tracking == "tracker") %>%
+  #group_by(Period, Tracking, IdLabel) %>%
+  ggplot(aes(interval)) +
+  geom_density() +
+  facet_grid(Period ~ IdLabel) +
+  scale_x_log10() +
+  #geom_vline(xintercept = 120, linetype = 2) +
+  theme_bw() +
+  xlab("intervisit intervals [s]") +
+  scale_fill_viridis_d()
+```
+
+To investigate whether there is a bout structure, the data were explored to see if the overall distribution could be separated into two component distributions. 
+[Note that help is needed to change the figure so that the medians and not the means of the distributions are marked]
+
+```{r echo=FALSE, warning=FALSE, message=FALSE, fig.align='center', fig.width = 17, fig.height = 9, fig.cap = "Figure 15: The bout structure of the inter-visit intervals. The vertical lines mark the means of the two distributions"}
+if(!require(flexmix)){install.packages('flexmix')}
+library(flexmix)
+
+n <- 2 #set this to set the range of the potential number of clusters
+mix_comp <- function(x) {
+  fit_mixture <- stepFlexmix(x ~ 1, # the means and sds are constant data = gender, # the data frame
+                             k = 1:n,  #range of the number of clusters
+                             nrep = 15,
+                             model = FLXMCnorm1(), # univariate Gaussian
+                             control = list(tol = 1e-15, # tolerance for EM stop 
+                                            #verbose = 1, # show partial results
+                                            iter = 1e4))
+  best_fit <- getModel(fit_mixture, which = "BIC")
+  priors  <- data.frame(length(prior(best_fit))) %>%
+    rename(components = 1) %>%
+    mutate(kind = "component") %>%
+    unite("component", 1:2)
+
+  parameters <- as.vector(parameters(best_fit)) %>%
+    as.data.frame() %>%
+    rename(components = 1) %>%
+    mutate(components = round(components, digits = 2),
+           rown = 1:n(),
+           kind = ifelse(rown%%2 == 1, "mean", "sd"),
+           row = rep(1:(max(rown)/2), each = 2)) %>%
+    select(components, row, kind) %>%
+    unite("kind", 2:3, sep = "") %>%
+    unite("component",  1:2, sep = "_")
+  components <- list((bind_rows(priors, parameters)))
+}
+
+IVIs <- Main %>%
+  select(Period, IdLabel, interval) %>%
+  filter(interval != "NA") %>%
+  group_by(Period, IdLabel) %>%
+  as.tibble()
+
+mix_dist <- IVIs %>%
+  group_by(Period, IdLabel)  %>%
+  summarise(components = mix_comp(interval)) %>%
+  mutate(components = map(components, as_tibble)) %>%
+  unnest() %>%
+  separate(component, c("component", "kind"), sep = "_", convert = TRUE) %>%
+  select(Period, IdLabel, kind, component) %>%
+  spread(kind, component, fill = 0, drop = FALSE) %>%
+  mutate_at(vars(3:ncol(.)), funs(as.numeric))
+
+IVIs_complete <- left_join(IVIs, mix_dist, by = c("Period", "IdLabel"))
+
+IVIs_complete %>%
+  ungroup() %>%
+  group_by(Period) %>%
+  ggplot(aes(interval)) +
+  geom_density() +
+  facet_grid(Period ~ IdLabel) +
+  scale_x_log10() +
+  geom_vline(mapping = aes(xintercept = IVIs_complete$`1mean`), color = "blue", linetype = 2) +
+  geom_vline(mapping = aes(xintercept = IVIs_complete$`2mean`), color = "red", linetype = 2) +
+  #geom_vline(mapping = aes(xintercept = IVIs_complete$`3mean`), color = "green", linetype = 2) +
+  theme_bw() +
+  xlab("intervisit intervals [s]") +
+  scale_fill_viridis_d()
+
+IVIs %>%
+  select(interval) %>%
+  ggplot(aes(interval)) +
+  geom_density() + 
+  scale_x_log10() + 
+  theme_bw() +
+  xlab("intervisit intervals [s]") +
+  scale_fill_viridis_d()
+
+```
+
+>>>>>>> b0b37ba89a8b318b108b3c253439413edef11f33
 # Discussion and Conclusions - this needs re-writing
 
 The bats can clearly differentiate between the volumes selected, although they can discriminate between the volumes with the larger absolute difference. The volumes were selected based on the psychometric curve for volume discrimination in bats in such a way, theoretically, that the two volumes in each pair would have the same subjective difference. However it does not appear that the bats perceive them in that way as the volume pair 25 v 7 $\mu$L seems to be more easily discriminable than the volume pair 7 v 2 $\mu$L. This could potentially be due to mechanical issues with the pump and tubing system. Small errors in the number of pump steps or small fluctuations in the pressure of the system could have made the smaller absolute difference in volume harder to discriminate for the bats.
@@ -965,6 +1230,7 @@ As the maximum range of probabilities is at the 6-hour period, it appears the pr
 
 * Strategies: and what they mean. 
 
+<<<<<<< HEAD
 # Supplementary Information
 ## Training stage: stable volume discrimination 
 ```{r echo=FALSE, warning=FALSE, message=FALSE, include=FALSE}
@@ -1083,3 +1349,5 @@ p2 <- choices %>%
 grid.arrange(p1, p2, ncol = 2)
 ```
 
+=======
+>>>>>>> b0b37ba89a8b318b108b3c253439413edef11f33
