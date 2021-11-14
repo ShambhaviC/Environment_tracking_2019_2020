@@ -111,7 +111,7 @@ Allchoices_subjmean <- alldays %>%
     # boolean column for whether the animal was actually detected
     detect = !is.na(Loc),
     # boolean column for whether the animal made a choice
-    choice = detect & str_detect(unitLabel, "Cond") & reinforce1value != "NA", 
+    choice = detect & str_detect(unitLabel, "Cond"), 
     Cond = as.character(Cond)
   ) %>% 
   filter(choice == TRUE | str_detect(unitLabel, "pump")) %>% 
@@ -336,7 +336,7 @@ Allchoices_objmean <- alldays %>%
     # boolean column for whether the animal was actually detected
     detect = !is.na(Loc),
     # boolean column for whether the animal made a choice
-    choice = detect & str_detect(unitLabel, "Cond") & reinforce1value != "NA", 
+    choice = detect & str_detect(unitLabel, "Cond"),  
     Cond = as.character(Cond)
   ) %>% 
   filter(choice == TRUE | str_detect(unitLabel, "pump")) %>% 
@@ -454,7 +454,15 @@ Tracking <- left_join(Bats_l, Nontrackers, by = "IdLabel") %>%
 # putting together the bat numbers and
 # marked non-trackers to make one look-up table for the animals that track
 
-Main_objmean <- left_join(Main, Tracking, by = "IdLabel") # now adding the tracking label to the main data frame
+# now adding the tracking label to the main data frame
+Main_objmean <- left_join(Main, Tracking, by = "IdLabel") 
+
+Main_objmean <- Main_objmean %>%
+  mutate(
+    Tracking = as.character(Tracking),
+    Tracking = ifelse(IdLabel == "Bat92", "non-tracker", Tracking)
+  )
+
 
 rm(daypathlist, Conditions, days, paths, alldays, Main, Main_days, Option_visits, Bats_l, Bats_r, Tracking, Nontrackers)
 
@@ -477,13 +485,13 @@ Main <- bind_rows(Main_subjmean, Main_objmean)
 # Writing the required CSV files 
 #######
 # creating a CSV file including the pump data for the training days
-write.csv2(Pump_subjmean, file = paste0(folder, "Pump_subj.csv"), row.names = FALSE)
+write.csv2(Pump_subjmean, file = paste0(folder, "processed_data/Pump_subj.csv"), row.names = FALSE)
 
 # creating a CSV file including the pump data for the main days 
-write.csv2(Pump_objmean, file = paste0(folder, "Pump_obj.csv"), row.names = FALSE)
+write.csv2(Pump_objmean, file = paste0(folder, "processed_data/Pump_obj.csv"), row.names = FALSE)
 
 # creating a CSV file with the training data
-write.csv2(Training, file = paste0(folder, "Training_roc.csv"), row.names = FALSE)
+write.csv2(Training, file = paste0(folder, "processed_data/Training_roc.csv"), row.names = FALSE)
 
 # Creating a CSV file with the main experimental data
-write.csv2(Main, file = paste0(folder, "Main_roc.csv"), row.names = FALSE)
+write.csv2(Main, file = paste0(folder, "processed_data/Main_roc.csv"), row.names = FALSE)
