@@ -1,10 +1,10 @@
 rm(list = ls())
-require(tidyverse)
-require(scales)
-require(lubridate)
-require(stringr)
+library(tidyverse)
+library(scales)
+library(lubridate)
+library(stringr)
 
-folder <- "analysis/data/"
+folder <- "/Users/shambhavi/Google Drive/Experiments & Data/Environment_tracking_2019_2020/analysis/data/"
 
 step_conv <- 0.324 # pump step conversion factor
 ##########################################
