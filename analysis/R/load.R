@@ -108,10 +108,11 @@ Allchoices_subjmean <- alldays %>%
   mutate(Discard = ifelse(str_detect(unitLabel, "pump"), 0, Discard)) %>%
   filter(Discard == 0) %>%
   mutate(
-    # boolean column for whether the animal was actually detected
+    # making a boolean column for whether the animal was actually detected
     detect = !is.na(Loc),
-    # boolean column for whether the animal made a choice
-    choice = detect & str_detect(unitLabel, "Cond"), 
+    # making a boolean column for whether the animal made a rewarded choice resulting in a reward,
+    # where the unitLabel contained Cond and the reinforce1value was not blank
+    choice = detect & str_detect(unitLabel, "Cond") & str_detect(reinforce1value, "", negate = FALSE),
     Cond = as.character(Cond)
   ) %>% 
   filter(choice == TRUE | str_detect(unitLabel, "pump")) %>% 
@@ -173,6 +174,8 @@ Main <- Main %>%
     Period = Period / 3600000, # converting the period from seconds to hours
     chosen = as.numeric(ifelse(outFuncLabel == "fixRewOut", minsine, maxsine))
   )
+
+
 # making a column with choice scaled as the peak and trough of the sine wave
 
 # Removing the bats that did not complete the experiment
@@ -200,22 +203,39 @@ Main <- left_join(Main, Main_days, by = c("Cohort", "Day", "IdLabel", "Reversal"
 Option_visits <- Main %>%
   mutate(Flower = ifelse(as.numeric(str_extract(unitLabel, "[0-9]+")) %% 2 == 1, "Right", "Left")) %>%
   # making a new table with the count of visits paid to the two options
-  group_by(Period, IdLabel, Flower) %>%
+  group_by(Period, Cohortday, IdLabel, Flower) %>%
   summarise(unitLabel = n())
 
 Bats_l <- Option_visits %>% # a table with the visits paid to the variable option
+  #ungroup() %>% 
   select(Period, IdLabel) %>%
   distinct(IdLabel) %>%
   mutate(Flower = c("Left"))
+
 Bats_r <- Option_visits %>% # a table with the visits paid to the fixed option
+  #ungroup() %>% 
   select(Period, IdLabel) %>%
   distinct(IdLabel) %>%
   mutate(Flower = c("Right"))
-Nontrackers <- bind_rows(Bats_l, Bats_r) # binding the two together
 
-Nontrackers <- left_join(Nontrackers, Option_visits, by = c("Period", "IdLabel", "Flower")) %>%
-  # making a table to pull out the non-trackers
-  mutate(Tracking = ifelse(unitLabel < 2 | is.na(unitLabel), "non-tracker", "tracker")) %>%
+Nontrackers <- 
+  # binding the two together
+  bind_rows(Bats_l, Bats_r) %>% 
+  ungroup() %>% 
+  select(-Cohortday) 
+
+# making a table to pull out the non-trackers, which are bats that made less than 5
+# visits to one of the flowers on at least 2 of the 8 experimental nights 
+Nontrackers <- left_join(Nontrackers, Option_visits, by = c("Period", "IdLabel", "Flower")) %>% 
+  # removing the repetitions
+  distinct() %>% 
+  # marking the nights the bats made less than 5 visits
+  mutate(less_than_five = ifelse(unitLabel < 5|is.na(unitLabel), 1, 0)) %>% 
+  ungroup() %>% 
+  group_by(IdLabel) %>% 
+  summarise(Tracking = sum(less_than_five)) %>% 
+  # labelling the bats if two experimental nights are marked as having less than 5 visits
+  mutate(Tracking = ifelse(Tracking >= 2, "non-tracker", "tracker")) %>%
   # marking the trackers and non-trackers
   ungroup() %>%
   filter(Tracking == "non-tracker") %>% # pulling out the non-trackers
@@ -333,10 +353,11 @@ Allchoices_objmean <- alldays %>%
   mutate(Discard = ifelse(str_detect(unitLabel, "pump"), 0, Discard)) %>%
   filter(Discard == 0) %>%
   mutate(
-    # boolean column for whether the animal was actually detected
+    # making a boolean column for whether the animal was actually detected
     detect = !is.na(Loc),
-    # boolean column for whether the animal made a choice
-    choice = detect & str_detect(unitLabel, "Cond"),  
+    # making a boolean column for whether the animal made a rewarded choice resulting in a reward,
+    # where the unitLabel contained Cond and the reinforce1value was not blank
+    choice = detect & str_detect(unitLabel, "Cond") & str_detect(reinforce1value, "", negate = FALSE),  
     Cond = as.character(Cond)
   ) %>% 
   filter(choice == TRUE | str_detect(unitLabel, "pump")) %>% 
@@ -392,10 +413,15 @@ Main <- Main %>%
     Amplitude = as.numeric(Amplitude), # making amplitude numeric
     Disp = as.numeric(Disp), # making displacement numeric
     Period = Period / 3600000, # converting the period from seconds to hours
+    # making a column with choice scaled as the peak and trough of the sine wave
     chosen = as.numeric(ifelse(outFuncLabel == "fixRewOut", minsine, maxsine))
   )
 
-# making a column with choice scaled as the peak and trough of the sine wave
+Side_check <- Main_objmean %>% 
+  ungroup() %>% 
+  select(Cohortday, Period, IdLabel, Tracking, chosen, unitLabel, outFuncLabel) %>% 
+  filter(outFuncLabel == "fixRewOut" | outFuncLabel == "sineRewOut") %>% 
+  distinct()
 
 # Removing the bats that did not complete the experiment
 # Because not all the bats might have done the experiment in the proper order of days,
@@ -422,22 +448,43 @@ Main <- left_join(Main, Main_days, by = c("Cohort", "Day", "IdLabel", "Reversal"
 Option_visits <- Main %>%
   mutate(Flower = ifelse(as.numeric(str_extract(unitLabel, "[0-9]+")) %% 2 == 1, "Right", "Left")) %>%
   # making a new table with the count of visits paid to the two options
-  group_by(Period, IdLabel, Flower) %>%
+  group_by(Period, Cohortday, IdLabel, Flower) %>%
   summarise(unitLabel = n())
 
 Bats_l <- Option_visits %>% # a table with the visits paid to the variable option
-  select(Period, IdLabel) %>%
-  distinct(IdLabel) %>%
+  ungroup() %>% 
+  select(Period, IdLabel, Cohortday) %>%
+  distinct() %>%
   mutate(Flower = c("Left"))
-Bats_r <- Option_visits %>% # a table with the visits paid to the fixed option
-  select(Period, IdLabel) %>%
-  distinct(IdLabel) %>%
-  mutate(Flower = c("Right"))
-Nontrackers <- bind_rows(Bats_l, Bats_r) # binding the two together
 
-Nontrackers <- left_join(Nontrackers, Option_visits, by = c("Period", "IdLabel", "Flower")) %>%
-  # making a table to pull out the non-trackers
-  mutate(Tracking = ifelse(unitLabel < 2 | is.na(unitLabel), "non-tracker", "tracker")) %>%
+Bats_r <- Option_visits %>% # a table with the visits paid to the fixed option
+  ungroup() %>% 
+  select(Period, IdLabel, Cohortday) %>%
+  distinct %>%
+  mutate(Flower = c("Right"))
+
+Nontrackers <- 
+  # binding the two together
+  bind_rows(Bats_l, Bats_r) %>% 
+  ungroup() %>% 
+  select(-Cohortday) 
+
+# making a table to pull out the non-trackers, which are bats that made less than 5
+# visits to one of the flowers on at least 2 of the 8 experimental nights 
+Nontrackers <- left_join(Nontrackers, Option_visits, by = c("Period", "IdLabel", "Flower")) %>% 
+  # removing the repetitions
+  distinct() 
+
+Bat92 <- tibble(Period = c(0.75, 3), IdLabel = c("Bat92"), Flower = c("Left"), Cohortday = c(6, 8), unitLabel = NA)
+  
+Nontrackers <- bind_rows(Nontrackers, Bat92) %>% 
+  # marking the nights the bats made less than 5 visits
+  mutate(less_than_five = ifelse(unitLabel < 5|is.na(unitLabel), 1, 0)) %>% 
+  ungroup() %>% 
+  group_by(IdLabel) %>% 
+  summarise(Tracking = sum(less_than_five)) %>% 
+  # labelling the bats if two experimental nights are marked as having less than 5 visits
+  mutate(Tracking = ifelse(Tracking >= 2, "non-tracker", "tracker")) %>%
   # marking the trackers and non-trackers
   ungroup() %>%
   filter(Tracking == "non-tracker") %>% # pulling out the non-trackers
@@ -457,14 +504,7 @@ Tracking <- left_join(Bats_l, Nontrackers, by = "IdLabel") %>%
 # now adding the tracking label to the main data frame
 Main_objmean <- left_join(Main, Tracking, by = "IdLabel") 
 
-Main_objmean <- Main_objmean %>%
-  mutate(
-    Tracking = as.character(Tracking),
-    Tracking = ifelse(IdLabel == "Bat92", "non-tracker", Tracking)
-  )
-
-
-rm(daypathlist, Conditions, days, paths, alldays, Main, Main_days, Option_visits, Bats_l, Bats_r, Tracking, Nontrackers)
+rm(daypathlist, Conditions, days, paths, alldays, Main, Main_days, Option_visits, Bats_l, Bats_r, Tracking, Nontrackers, Bat92)
 
 #------------------------------------------ 
 # Preparing the pump data - objective mean
@@ -487,7 +527,7 @@ Main <- bind_rows(Main_subjmean, Main_objmean)
 # creating a CSV file including the pump data for the training days
 write.csv2(Pump_subjmean, file = paste0(folder, "processed_data/Pump_subj.csv"), row.names = FALSE)
 
-# creating a CSV file including the pump data for the main days 
+# creating a CSV file including the pump data for the main days
 write.csv2(Pump_objmean, file = paste0(folder, "processed_data/Pump_obj.csv"), row.names = FALSE)
 
 # creating a CSV file with the training data
