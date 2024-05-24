@@ -68,7 +68,7 @@ This file is user-generated and allows mapping the raw csv files to the respecti
 |Path        |Path of the raw csv file corresponding to the day|
 |Comments    |This column indicates which stages of the experiment were carried out on a particular day|
 
-## 5. Content of "raw_data_all.csv" file
+## 5. Content of "Training_roc.csv" file
 
 This file is the output of the load.R script which processes the folder of raw csv files, with further information supplied by "ConditionsSerialReversal" and "MasterTableSerialReversal" csv files.
 
@@ -97,7 +97,7 @@ This file is the output of the load.R script which processes the folder of raw c
 |Cage         |-        |Cage number|
 |IdLabel      |-        |Short unique identifying label for each bat|
   
-## 6. Content of "Raw_data_bats.csv" file
+## 6. Content of "Main_roc.csv" file
 
 This file is a modification of the file "raw_data_all.csv" containing the data only of the visits made by the bats to the flowers assigned to them. 
 
@@ -126,7 +126,15 @@ This file is a modification of the file "raw_data_all.csv" containing the data o
 |Cage        |-         |Cage number|
 |IdLabel     |-         |Short unique identifying label for each bat|
 
-## 7. Content of "m.trends.volumebins.allvaryingslopes.rda" file
+## 7. Content of "Pump_subj.csv" file
+
+## 8. Content of "Pump_obj.csv" file
+
+## 9. Content of "exp_bats_subjmean.csv" file
+
+## 10. Content of "exp_bats_objmean.csv" file
+
+## 11. Content of "m.trends.volumebins.allvaryingslopes.rda" file
 
 This file is the output of the statistical model described in the RMarkdown file envtracking.Rmd in the code chunk "trends-model-conditional-effects"
 
