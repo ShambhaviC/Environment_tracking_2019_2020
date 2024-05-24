@@ -120,9 +120,71 @@ This file is the output of the load.R script which processes the folder of raw c
 
 ## 7. Content of "Pump_subj.csv" file
 
+|Column label |Type     |Description |
+|-------------|---------|------------|
+|Day		      |-        |Number of experimental day starting from the first day to the last sequentially|
+|DateTime     |-        |The astronomical date and time for each event of the experiment|
+|IdLabel      |-        |This column is irrelevant to this file|
+|IdLabel      |-        |This column is irrelevant to this file|
+|unitLabel		|-        |This column contains the label indicating that the pump was activated in this time|
+|eventDuration|-        |This column is irrelevant to this file|
+|reinforce1value|-      |This column is irrelevant to this file|
+|outFuncLabel|-         |This column is irrelevant to this file|
+|outLabel	   |-         |This column is irrelevant to this file|
+|SystemMsg	 |-         |This column containst the label indicating whether the pump behaviour started or ended at this time point|
+|MsgValue1   |-         |This column is irrelevant to this file|
+|Loc         |-         |This column is irrelevant to this file|
+|Cohortday   |-         |This column is irrelevant to this file|
+|Period      |-         |This column is irrelevant to this file|
+|Amplitude   |-         |This column is irrelevant to this file|
+|Disp        |-         |This column is irrelevant to this file|
+|Rel         |-         |This column is irrelevant to this file|
+|Discard     |-         |This column is irrelevant to this file|
+|Cond        |-         |This column is irrelevant to this file|
+|Reversal    |-         |This column is irrelevant to this file|
+|Cohort      |-         |This column is irrelevant to this file|
+|Cohort      |-         |This column is irrelevant to this file|
+|choice      |-         |This column indicates that these events were not choices made by the bats|
+|Experiment  |-         |This column indicates whether the bats experienced which level of the richness treatment|
+
 ## 8. Content of "Pump_obj.csv" file
 
+|Column label |Type     |Description |
+|-------------|---------|------------|
+|Day		      |-        |Number of experimental day starting from the first day to the last sequentially|
+|DateTime     |-        |The astronomical date and time for each event of the experiment|
+|IdLabel      |-        |This column is irrelevant to this file|
+|IdLabel      |-        |This column is irrelevant to this file|
+|unitLabel		|-        |This column contains the label indicating that the pump was activated in this time|
+|eventDuration|-        |This column is irrelevant to this file|
+|reinforce1value|-      |This column is irrelevant to this file|
+|outFuncLabel|-         |This column is irrelevant to this file|
+|outLabel	   |-         |This column is irrelevant to this file|
+|SystemMsg	 |-         |This column containst the label indicating whether the pump behaviour started or ended at this time point|
+|MsgValue1   |-         |This column is irrelevant to this file|
+|Loc         |-         |This column is irrelevant to this file|
+|Cohortday   |-         |This column is irrelevant to this file|
+|Period      |-         |This column is irrelevant to this file|
+|Amplitude   |-         |This column is irrelevant to this file|
+|Disp        |-         |This column is irrelevant to this file|
+|Rel         |-         |This column is irrelevant to this file|
+|Discard     |-         |This column is irrelevant to this file|
+|Cond        |-         |This column is irrelevant to this file|
+|Reversal    |-         |This column is irrelevant to this file|
+|Cohort      |-         |This column is irrelevant to this file|
+|Cohort      |-         |This column is irrelevant to this file|
+|choice      |-         |This column indicates that these events were not choices made by the bats|
+|Experiment  |-         |This column indicates whether the bats experienced which level of the richness treatment|
+
 ## 9. Content of "exp_bats_subjmean.csv" file
+|Column label |Type     |Description |
+|-------------|---------|------------|
+|Individual ID                    |-        |Number of experimental day starting from the first day to the last sequentially|
+|Sex          |-        |The astronomical date and time for each event of the experiment|
+|Weight on entering experiment [g]|-        |This column is irrelevant to this file|
+|Weight on finishing or removal from experiment [g]|-        |This column is irrelevant to this file|
+|Difference in weight after the experiment [g]|-        |This column contains the label indicating that the pump was activated in this time|
+|Notes on progress within the experiment|-        |This column is irrelevant to this file|
 
 ## 10. Content of "exp_bats_objmean.csv" file
 
