@@ -177,16 +177,26 @@ This file is the output of the load.R script which processes the folder of raw c
 |Experiment  |-         |This column indicates whether the bats experienced which level of the richness treatment|
 
 ## 9. Content of "exp_bats_subjmean.csv" file
+
 |Column label |Type     |Description |
 |-------------|---------|------------|
-|Individual ID                    |-        |Number of experimental day starting from the first day to the last sequentially|
-|Sex          |-        |The astronomical date and time for each event of the experiment|
-|Weight on entering experiment [g]|-        |This column is irrelevant to this file|
-|Weight on finishing or removal from experiment [g]|-        |This column is irrelevant to this file|
-|Difference in weight after the experiment [g]|-        |This column contains the label indicating that the pump was activated in this time|
-|Notes on progress within the experiment|-        |This column is irrelevant to this file|
+|Individual ID|-        |ID number of the bat|
+|Sex          |-        |Sex of the bat|
+|Weight on entering experiment [g]|-        |Weight of the bat in grams on the day it was placed into the experiment for environment acclimatization|
+|Weight on finishing or removal from experiment [g]|-        |Weight of the bat in grams on the day it was removed from the experiment, either because it was removed midway or because it finished the experiment|
+|Difference in weight after the experiment [g]|-        |Weight in grams lost or gained during the experiment, the difference between the weight on entering and finishing the experiment|
+|Notes on progress within the experiment|-        |This column notes whether the bats finished the experiment or were removed midway|
 
 ## 10. Content of "exp_bats_objmean.csv" file
+
+|Column label |Type     |Description |
+|-------------|---------|------------|
+|Individual ID|-        |ID number of the bat|
+|Sex          |-        |Sex of the bat|
+|Weight on entering experiment [g]|-        |Weight of the bat in grams on the day it was placed into the experiment for environment acclimatization|
+|Weight on finishing or removal from experiment [g]|-        |Weight of the bat in grams on the day it was removed from the experiment, either because it was removed midway or because it finished the experiment|
+|Difference in weight after the experiment [g]|-        |Weight in grams lost or gained during the experiment, the difference between the weight on entering and finishing the experiment|
+|Notes on progress within the experiment|-        |This column notes whether the bats finished the experiment or were removed midway|
 
 ## 11. Content of "m.trends.volumebins.allvaryingslopes.rda" file
 
