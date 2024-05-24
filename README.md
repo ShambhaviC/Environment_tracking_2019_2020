@@ -30,7 +30,7 @@ These files were written to execute the experimental schedule for each day of th
 |IdLabel			|-        |Short unique identifying label for each bat|
 |unitLabel		|-        |Code identifying which reward-dispensing device ('flower') was activated during an event|
 |             |CondMod  |Detections of both a transponder number and an infra-red beam interruption, identified as a nose-poke|
-|             |pumpBeh, Empty, Full| Events relating to states of the syringe and its refilling algorithm|
+|             |pumpBeh  | Events relating to states of the syringe and its refilling algorithm|
 |             |exp      |Events related to the programmed reward schedule, clarified in **SystemMsg**|
 |eventDuration|-        |Duration of event in milliseconds|
 |reinforce1value|-		  |Reward (in pump step units, delivered by a stepper motor syringe pump filled with sugar-water)|
