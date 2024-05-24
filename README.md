@@ -2,11 +2,11 @@
 
 Tracking a continuously changing environment
 
-The folder "analysis/data/exp1_subjective_mean/configuration_files" and "analysis/data/exp2_objective_mean/configuration_files" contain the Excel files that were used to execute the experimental program with the desired reward schedule using PhenoSoft Control.
+The folders "analysis/data/exp1_subjective_mean/configuration_files" and "analysis/data/exp2_objective_mean/configuration_files" contain the Excel files that were used to execute the experimental program with the desired reward schedule using PhenoSoft Control.
 
-The folder "analysis/data/raw_data" contains CSV files with raw data from the experimental runs of groups of bats inside flight-cages with four artificial flowers, i.e., nectar-dispensing devices. The files were produced by the software PhenoSoft Control. 
+The folders "analysis/data/exp1_subjective_mean/raw_data" and "analysis/data/exp2_objective_mean/raw_data" contain CSV files with raw data from the experimental runs of bats inside flight-cages with two artificial flowers each, i.e., nectar-dispensing devices. The files were produced by the software PhenoSoft Control. 
 
-The folder "analysis/data/meta_data" contains the following input CSV files: "ConditionsSerialReversal.csv" and "MasterTableSerialReversal.csv". These files are necessary for the R scripts that stitch the raw data together and analyse them. 
+The folders "analysis/data/exp1_subjective_mean/meta_data" contains the following input CSV files: "ConditionsSubjectiveMean.csv" and "MasterTableSubjectiveMean.csv"; the folder "analysis/data/exp2_objective_mean/meta_data" contains the following input CSV files: "ConditionsObjectiveMean.csv" and "MasterTableObjectiveMean.csv". These files are necessary for the R scripts that stitch the raw data together and analyse them. 
   
 The folder "analysis/data/processed_data" contains the following CSV files: "raw_data_all.csv", which is the complete set of raw data from the PhenoSoft software combined with the meta data from the folder "analysis/data/meta_data"; and "Raw_data_bats.csv", which is the set of raw data that were only produced by the activity of the bats. The folder also contains the following RDA files, which are the outputs of the GLMM models in the statistical analyses in this study: "m.firstnight.blockbin.nofirstblock.rda"; "m.firstnight.blockbin.lastthreeblocks.rda"; "m.dayblockbin.laternights.rda". 
 
