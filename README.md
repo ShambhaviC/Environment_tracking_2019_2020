@@ -70,33 +70,22 @@ This file is user-generated and allows mapping the raw csv files to the respecti
 
 ## 5. Content of "Training_roc.csv" file
 
-This file is the output of the load.R script which processes the folder of raw csv files, with further information supplied by "ConditionsSerialReversal" and "MasterTableSerialReversal" csv files.
+This file is the output of the load.R script which processes the folder of raw csv files, with further information supplied by "ConditionsSerialReversal" and "MasterTableSerialReversal" csv files. It contains the data from the training days of the experiment
 
 |Column label |Type     |Description |
 |-------------|---------|------------|
-|IdRFID       |-        |RFID number of a single bat|
-|day		      |-        |Number of experimental day starting from the first day to the last sequentially|
-|DateTime	    |-        |Astronomical date and time for each event of the experiment|
-|unitLabel		|-        |Code identifying which reward-dispensing device ('flower') was activated during an event|
-|             |LS       |Detections of infra-red beam interruptions without the detection of a transponder number|
-|             |Reader   |Detections of transponder numbers without infra-red beam interruptions|
-|             |CondMod  |Detections of both a transponder number and an infra-red beam                                    interruption, identified as a nose-poke|
-|             |pumpBeh, Empty, Full| Events relating to states of the syringe and its refilling algorithm|
-|             |VersuchCS|Events related to the main program, clarified in **SystemMsg**|
-|             |exp      |Events related to the programmed reward schedule, clarified in **SystemMsg**|
-|eventDuration|-        |	Duration of event in milliseconds|
-|reinforce1value|-        |	Duration of event in milliseconds|
-|reinforce1Account|-        |	Duration of event in milliseconds|
-|outFuncLabel |-        |Label indicating which 'flower' delivered a reward in response to a nose-poke|
-|outLabel     |-        |Contents of this column are irrelevant for this experiment|
-|SystemMsg    |-        |Contents of this column are irrelevant for this experiment|
-|MsgValue1    |-        |Events in the experimental schedule: 'start' indicating the start of the experimental program; 'end' indicating the end of the experimental program; 'switch' indicating a reversal of reward contingencies between the two flowers of a pair assigned to an individual bat|
-|Day          |-        |Number of each day of each stage of the experiment|
-|Condition	  |-        |Name of each stage of the experiment|
-|Group		    |-        |Number of the group of 4 bats that participated in the experiment at the same time in the same cage|
-|Cage         |-        |Cage number|
+|Day		      |-        |Number of experimental day starting from the first day to the last sequentially|
 |IdLabel      |-        |Short unique identifying label for each bat|
-  
+|Phase        |-        |Phase of the training stage| 
+|             |Initial  |Initial free-choice phase where the bats could get a reward at both flowers| 
+|             |Forced1  |Forced alternation phase where the bats had to visit the flowers in alternation, one being rewarding, one being blocked. One flower offered a reward volume equal to the fixed output, the other the peak or trough of the fluctuating output| 
+|             |Free1    |Free choice phase with the same reward volume as in Forced1, but the bats had access to reward at both flowers| 
+|             |Forced2  |Forced alternation phase where the bats had to visit the flowers in alternation, one being rewarding, one being blocked. One flower offered a reward volume equal to the fixed output, the other the peak of the fluctuating volume if the trough was offered in Forced1, or the trough if the peak was offered in Forced1| 
+|             |Free2    |Free choice phase with the same reward volume as in Forced2, but the bats had access to reward at both flowers| 
+|Flower       |-        |Number identifying which reward-dispensing device was activated during an event|
+|vis_vol      |-        |Volume of the reward output received by the bat| 
+|unitLabel		|-        |Count of the number of visits made during a particular phase of training|
+
 ## 6. Content of "Main_roc.csv" file
 
 This file is a modification of the file "raw_data_all.csv" containing the data only of the visits made by the bats to the flowers assigned to them. 
