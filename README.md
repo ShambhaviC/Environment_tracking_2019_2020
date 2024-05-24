@@ -8,13 +8,13 @@ The folders "analysis/data/exp1_subjective_mean/raw_data" and "analysis/data/exp
 
 The folders "analysis/data/exp1_subjective_mean/meta_data" contains the following input CSV files: "ConditionsSubjectiveMean.csv" and "MasterTableSubjectiveMean.csv"; the folder "analysis/data/exp2_objective_mean/meta_data" contains the following input CSV files: "ConditionsObjectiveMean.csv" and "MasterTableObjectiveMean.csv". These files are necessary for the R scripts that stitch the raw data together and analyse them. 
   
-The folder "analysis/data/processed_data" contains the following CSV files: "raw_data_all.csv", which is the complete set of raw data from the PhenoSoft software combined with the meta data from the folder "analysis/data/meta_data"; and "Raw_data_bats.csv", which is the set of raw data that were only produced by the activity of the bats. The folder also contains the following RDA files, which are the outputs of the GLMM models in the statistical analyses in this study: "m.firstnight.blockbin.nofirstblock.rda"; "m.firstnight.blockbin.lastthreeblocks.rda"; "m.dayblockbin.laternights.rda". 
+The folder "analysis/data/processed_data" contains the following CSV files: "Training_roc.csv" which is the set of data from the training part of the experiment from the PhenoSoft software combined with the meta data from the folder "analysis/data/exp1_subjective_mean/meta_data" and "analysis/data/exp2_objective_mean/meta_data"; "Main_roc.csv" which is the set of data from the main part of the experiment from the PhenoSoft software combined with the meta data from the folder "analysis/data/exp1_subjective_mean/meta_data" and "analysis/data/exp2_objective_mean/meta_data"; "Pump_subj.csv" and "Pump_obj.csv" which is the set of data about the start and end times of the pump-refilling activity, derived from the raw data in "Main_roc.csv" and "Training_roc.csv"; "exp_bats_subjmean.csv" and "exp_bats_objmean.csv" which contains the ID numbers, sexes, and weights of the experimental bats before and after their participation in the experiments. The folder also contains the following RDA files which is the output of the GLMM model in the statistical analyses in this study: "m.trends.volumebins.allvaryingslopes.rda".
 
-The folder "analysis/R" contains the R script load.R. The output of this script are  are processed CSV files, saved in the folder "analysis/data/processed_data". 
+The folder "analysis/R" contains the following R scripts: load.R whose outputs are the processed CSV files, saved in the folder "analysis/data/processed_data"; rateofchange_shiny.R which is a shiny app that was used for the daily analysis of the raw data during the experiments to ensure that the protocol had worked as intended and the bats had drunk enough nectar.
 
-The folder "analysis/images" contains the image "cage_schematic.png" which is read into the RMarkdown file. 
+The folder "analysis/images" contains the following images, which are read into the RMarkdownfile: "cage_schematic.png"  
 
-The RMarkdown file with the complete text of the paper and the complete code for the analysis of the CSV files in the folder "analysis/data/processed_data" is found in the folder "analysis". 
+The RMarkdown file with the complete text of the chapter and the complete code for the analysis of the processed CSV files in the folder "analysis/data/processed_data" is found in the folder "analysis". 
 
 ## 1. Content of configuration files
 
