@@ -12,7 +12,7 @@ The folder "analysis/data/processed_data" contains the following CSV files: "Tra
 
 The folder "analysis/R" contains the following R scripts: load.R whose outputs are the processed CSV files, saved in the folder "analysis/data/processed_data"; rateofchange_shiny.R which is a shiny app that was used for the daily analysis of the raw data during the experiments to ensure that the protocol had worked as intended and the bats had drunk enough nectar.
 
-The folder "analysis/images" contains the following images, which are read into the RMarkdownfile: "cage_schematic.png"  
+The folder "analysis/images" contains the following images, which are read into the RMarkdownfile: "operant_wall.png"; "flower_cage_schematic.png"; "flower_parts.csv"; design_schematic"; "trailing_predicting_schematic".   
 
 The RMarkdown file with the complete text of the chapter and the complete code for the analysis of the processed CSV files in the folder "analysis/data/processed_data" is found in the folder "analysis". 
 
@@ -24,41 +24,39 @@ These files were written to execute the experimental schedule for each day of th
 
 |Column label |Type     |Description |
 |-------------|---------|------------|
-|DateTime     |-        |The astronomical date and time for each event of the experiment. 
-|IdRFID       |-        |RFID number of a single bat|
+|day          |-        |Day number of the level of richness treatment that each group of bats experienced|
+|DateTime     |-        |The astronomical date and time for each event of the experiment|
+|IdRFID       |-        |RFID number of a single bat, place-holders here as the RFID devices were not used for this experiment|
 |IdLabel			|-        |Short unique identifying label for each bat|
 |unitLabel		|-        |Code identifying which reward-dispensing device ('flower') was activated during an event|
-|             |LS       |Detections of infra-red beam interruptions without the detection of a transponder number|
-|             |Reader   |Detections of transponder numbers without infra-red beam interruptions|
 |             |CondMod  |Detections of both a transponder number and an infra-red beam                                    interruption, identified as a nose-poke|
 |             |pumpBeh, Empty, Full| Events relating to states of the syringe and its refilling algorithm|
-|             |VersuchCS|Events related to the main program, clarified in **SystemMsg**|
 |             |exp      |Events related to the programmed reward schedule, clarified in **SystemMsg**|
 |eventDuration|-        |Duration of event in milliseconds|
-|sense1duration|-       |Total duration of the infra-red beam interruption|
-|sense1Events |-	      |Number of interruptions of infra-red beam. When such events happen fast enough (less than 200ms apart) these are registered as a single event, but the number of such short interruptions is given here|
-|senseRFIDrecords|-    	|Number of times the transponder number was detected|
 |reinforce1value|-		  |Reward (in pump step units, delivered by a stepper motor syringe pump filled with sugar-water)|
-|reinforce1Total|-	   |Contents of this column are irrelevant for this experiment|
-|reinforce1Account|-	 |Contents of this column are irrelevant for this experiment|
 |outFuncLabel |-  	    |Label indicating which 'flower' delivered a reward in response to a nose-poke|
-|outLabel     |-       |Contents of this column are irrelevant for this experiment|
-|SystemMsg    |-       |Contents of this column are irrelevant for this experiment|
+|outLabel     |-       |'positive' indicates the delivery of a reward|
+|SystemMsg    |-       |Contains the volume of the fluctuating option at the time-points when the bats made visits to the fluctuating option, in units of pump steps|
 |MsgValue1    |-       |Events in the experimental schedule: 'start' indicating the start of the experimental program; 'end' indicating the end of the experimental program; 'switch' indicating a reversal of reward contingencies between the two flowers of a pair assigned to an individual bat|
-|MsgValue2    |-    		|Name of the experimenal configuration file that produced the raw data file|
-|MsgValue3    |-       |Contents of this column are irrelevant for this experiment|
 
-## 3. Content of "ConditionsSerialReversal.csv"
+## 3. Content of "ConditionsSubjectiveMean.csv" and "ConditionsObjectiveMean.csv"
 
 This file is user-generated, providing relevant experimental information not present in the raw files.
 
 |Column label|	Description|
 |------------|-------------|
-|day         |Number of experimental day starting from the first day to the last sequentially|
-|Day		 |Number of each day of each stage of the experiment|
-|Condition         |Name of each stage of the experiment|
-|Group	       |Number of the group of 4 bats that participated in the experiment at the same time in the same cage|
-|Cage		     |Cage number|
+|Day		     |Number of each day of each stage of the experiment|
+|Cohortday   |Name of each day of each stage of the experiment for each cohort of 6 bats that were run in parallel in the experiments|
+|IdLabel     |Short unique identifying label for each bat|
+|Loc         |Flower number|
+|Period      |Period of the sine wave in seconds|
+|Amplitude   |Amplitude of the sine wave in units of pump steps|
+|Disp        |Displacement above 0 of the sine wave output in units of pump steps|
+|Rel         |Binary 1 or 0 indicating whether a particular flower was responsive to a bat|
+|Discard     |Binary 1 or 0 indicating whether a bat should be removed from the analysis|
+|Cond        |This column indicated the stage of the experiment, Training or "Rateofchange"|
+|Reversal    |Binary 1 or 0 indicating whether a particular day was the first night or reversal night of a condition|
+|Cohort      |Number of each of cohort of 6 bats run together|
 
 ## 4. Content of "MasterTableSerialReversal.csv"
 
@@ -66,8 +64,9 @@ This file is user-generated and allows mapping the raw csv files to the respecti
 
 |Column label|	Description|
 |------------|-------------|
-|day         |Number of experimental day starting from the first day to the last sequentially|
-|path        |Path of the raw csv file corresponding to the day|
+|Day         |Number of experimental day starting from the first day to the last sequentially|
+|Path        |Path of the raw csv file corresponding to the day|
+|Comments    |This column indicates which stages of the experiment were carried out on a particular day|
 
 ## 5. Content of "raw_data_all.csv" file
 
@@ -127,17 +126,8 @@ This file is a modification of the file "raw_data_all.csv" containing the data o
 |Cage        |-         |Cage number|
 |IdLabel     |-         |Short unique identifying label for each bat|
 
-## 7. Content of "m.firstnight.blockbin.nofirstblock.rda" file
+## 7. Content of "m.trends.volumebins.allvaryingslopes.rda" file
 
-This file is the output of the statistical model described in the RMarkdown file SRL.Rmd in the code chunk "first-night-first-block-removed"
-
-## 8. Content of "m.firstnight.blockbin.lastthreeblocks.rda" file
-
-This file is the output of the statistical model described in the RMarkdown file SRL.Rmd in the code chunk "first-night-first-two-blocks-removed"
-
-## 9. Content of "m.dayblockbin.laternights.rda" file
-
-This file is the output of the statistical model described in the RMarkdown file SRL.Rmd in the code chunk "second-and-third-nights-analysis"
-
+This file is the output of the statistical model described in the RMarkdown file envtracking.Rmd in the code chunk "trends-model-conditional-effects"
 
 For further information contact: shambhavic21@gmail.com
