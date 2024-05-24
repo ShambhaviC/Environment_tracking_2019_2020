@@ -29,7 +29,7 @@ These files were written to execute the experimental schedule for each day of th
 |IdRFID       |-        |RFID number of a single bat, place-holders here as the RFID devices were not used for this experiment|
 |IdLabel			|-        |Short unique identifying label for each bat|
 |unitLabel		|-        |Code identifying which reward-dispensing device ('flower') was activated during an event|
-|             |CondMod  |Detections of both a transponder number and an infra-red beam                                    interruption, identified as a nose-poke|
+|             |CondMod  |Detections of both a transponder number and an infra-red beam interruption, identified as a nose-poke|
 |             |pumpBeh, Empty, Full| Events relating to states of the syringe and its refilling algorithm|
 |             |exp      |Events related to the programmed reward schedule, clarified in **SystemMsg**|
 |eventDuration|-        |Duration of event in milliseconds|
@@ -58,7 +58,7 @@ This file is user-generated, providing relevant experimental information not pre
 |Reversal    |Binary 1 or 0 indicating whether a particular day was the first night or reversal night of a condition|
 |Cohort      |Number of each of cohort of 6 bats run together|
 
-## 4. Content of "MasterTableSerialReversal.csv"
+## 4. Content of "MasterTableSubjectiveMean.csv" and "MasterTableObjectiveMean.csv"
 
 This file is user-generated and allows mapping the raw csv files to the respective experimental days.
 
@@ -70,7 +70,7 @@ This file is user-generated and allows mapping the raw csv files to the respecti
 
 ## 5. Content of "Training_roc.csv" file
 
-This file is the output of the load.R script which processes the folder of raw csv files, with further information supplied by "ConditionsSerialReversal" and "MasterTableSerialReversal" csv files. It contains the data from the training days of the experiment
+This file is the output of the load.R script which processes the folder of raw csv files, with further information supplied by "ConditionsSubjectiveMean", "MasterTableSubjectiveMean", "ConditionsObjectiveMean" and "MasterTableObjectiveMean" csv files. It contains the data from the training days of the experiment
 
 |Column label |Type     |Description |
 |-------------|---------|------------|
@@ -87,33 +87,36 @@ This file is the output of the load.R script which processes the folder of raw c
 |unitLabel		|-        |Count of the number of visits made during a particular phase of training|
 
 ## 6. Content of "Main_roc.csv" file
-
-This file is a modification of the file "raw_data_all.csv" containing the data only of the visits made by the bats to the flowers assigned to them. 
+This file is the output of the load.R script which processes the folder of raw csv files, with further information supplied by "ConditionsSubjectiveMean", "MasterTableSubjectiveMean", "ConditionsObjectiveMean" and "MasterTableObjectiveMean" csv files. It contains the data from the main experimental days of the experiment. 
 
 |Column label |Type     |Description |
 |-------------|---------|------------|
-|IdRFID       |-        |RFID number of a single bat|
-|day		      |-        |Number of experimental day starting from the first day to the last sequentially|
-|DateTime	    |-        ||Astronomical date and time for each event of the experiment|
+|Day		      |-        |Number of experimental day starting from the first day to the last sequentially|
+|DateTime     |-        |The astronomical date and time for each event of the experiment|
+|IdLabel      |-        |Short unique identifying label for each bat|
 |unitLabel		|-        |Code identifying which reward-dispensing device ('flower') was activated during an event|
-|             |LS       |Detections of infra-red beam interruptions without the detection of a transponder number|
-|             |Reader   |Detections of transponder numbers without infra-red beam interruptions|
-|             |CondMod  |Detections of both a transponder number and an infra-red beam                                    interruption, identified as a nose-poke|
-|             |pumpBeh, Empty, Full| Events relating to states of the syringe and its refilling algorithm|
-|             |VersuchCS|Events related to the main program, clarified in **SystemMsg**|
-|             |exp      |Events related to the programmed reward schedule, clarified in **SystemMsg**|
 |eventDuration|-        |Duration of event in milliseconds|
-|reinforce1value|-      |	Duration of event in milliseconds|
-|reinforce1Account|-        |Duration of event in milliseconds|
+|reinforce1value|-      |Duration of event in milliseconds|
 |outFuncLabel|-         |Label indicating which 'flower' delivered a reward in response to a nose-poke|
 |outLabel	   |-         |Contents of this column are irrelevant for this experiment|
 |SystemMsg	 |-         |Contents of this column are irrelevant for this experiment|
-|MsgValue1   |-        |Events in the experimental schedule: 'start' indicating the start of the experimental program; 'end' indicating the end of the experimental program; 'switch' indicating a reversal of reward contingencies between the two flowers of a pair assigned to an individual bat|
-|Day         |-        |Number of each day of each stage of the experiment|
-|Condition	 |-        |Name of each stage of the experiment|
-|Group		   |-        |Number of the group of 4 bats that participated in the experiment at the same time in the same cage|
-|Cage        |-         |Cage number|
-|IdLabel     |-         |Short unique identifying label for each bat|
+|Cohortday   |-         |Number of experimental day starting from the first day to the last sequentially|
+|Period      |-         |Period of the sine wave in hours|
+|Amplitude   |-         |Amplitude of the sine wave in units of pump steps|
+|Disp        |-         |Displacement above 0 of the sine wave output in units of pump steps|
+|Rel         |-         |Binary 1 or 0 indicating whether a particular flower was responsive to a bat|
+|Cond        |-         |This column indicated the stage of the experiment, Training or "Rateofchange"|
+|Reversal    |-         |Binary 1 or 0 indicating whether a particular day was the first night or reversal night of a condition|
+|Cohort      |-         |Number of each of cohort of 6 bats run together|
+|choice      |-         |Binary TRUE or FALSE to indicate if the choice is a true choice|
+|Experiment  |-         |This column indicates whether the bats experienced which level of the richness treatment|
+|sine_steps  |-         |Number of pump steps of the fluctuating reward at each recorded time-point|
+|sine_vol    |-         |Volume of the fluctuating reward in microLitres at each recorded time-point|
+|vis_vol     |-         |Volume of the reward obtained by the bats in microLitres at each recorded time-point|
+|timediff    |-         |Time elapsed in seconds since the first visit made for each of the bats|
+|chosen      |-         |Binary column containing the choice made by the bats converted to the fixed output in microLitres and the peak of the fluctuating output in microLitres|
+|Tracking    |-         |This column contains information about whether a bat was reversal responsive or not|
+
 
 ## 7. Content of "Pump_subj.csv" file
 
