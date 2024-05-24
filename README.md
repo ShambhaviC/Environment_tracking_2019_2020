@@ -2,7 +2,7 @@
 
 Tracking a continuously changing environment
 
-The folder "analysis/data/configuration_files" contain the Excel files that were used to execute the experimental program with the desired reward schedule using PhenoSoft Control.
+The folder "analysis/data/exp1_subjective_mean/configuration_files" and "analysis/data/exp2_objective_mean/configuration_files" contain the Excel files that were used to execute the experimental program with the desired reward schedule using PhenoSoft Control.
 
 The folder "analysis/data/raw_data" contains CSV files with raw data from the experimental runs of groups of bats inside flight-cages with four artificial flowers, i.e., nectar-dispensing devices. The files were produced by the software PhenoSoft Control. 
 
